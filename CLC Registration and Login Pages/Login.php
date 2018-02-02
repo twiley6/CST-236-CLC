@@ -15,7 +15,7 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
     // if the user has just tried to log in
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
-    $dbObj = new DBConnection();
+    $dbObj = new DBManagement();
 
     if (mysqli_connect_errno()) {
         echo 'Connection to database failed:'.mysqli_connect_error();
@@ -111,8 +111,8 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="useradmin.php" class="right">Admin Panel</a>
-        <a href="createnew.html">Product Catalog</a>
+        <a href="adminPanel.php" class="right">Admin Panel</a>
+        <a href="catalog.html">Product Catalog</a>
         <a href="login.php" class="active">Login</a>
     </div>
 </div>

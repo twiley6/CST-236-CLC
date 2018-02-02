@@ -73,7 +73,7 @@ Stores the information from the registration page into the database.-->
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="useradmin.php" class="right">Admin Panel</a>
+        <a href="adminPanel.php" class="right">Admin Panel</a>
         <a href="createnew.html">New Blog</a>
         <a href="login.php">Login</a>
     </div>
@@ -93,7 +93,7 @@ Stores the information from the registration page into the database.-->
     $name = $_POST['Name'];
     $username = $_POST['Username'];
     $password = $_POST['Password'];
-	$dbObj = new DBConnection();
+	$dbObj = new DBManagement();
 
 	if ($dbObj->getDBConnect()->connect_error) {
         echo "<p>Error: Could not connect to database.<br/>

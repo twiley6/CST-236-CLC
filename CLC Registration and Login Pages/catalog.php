@@ -3,15 +3,14 @@ Tim Wiley
 Gary Sundquist
 Justin Hamman
 Robert Nichols
-Jan. 27, 2018
-Registration page.-->
-
+Jan. 30, 2018
+-->
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Catalog</title>
     <style type="text/css">
         body {
             background-color: beige;
@@ -74,36 +73,11 @@ Registration page.-->
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="adminPanel.html" class="right">Admin Panel</a>
+        <a href="adminPanel.php" class="right">Admin Panel</a>
         <a href="catalog.html">Product Catalog</a>
         <a href="login.php" class="active">Login</a>
     </div>
 </div>
-<form action = "registerHandler.php" method="post">
-    <center><h1>Registration Page</h1>
-        <h2>Create Your New Account By Filling Out The Information Below</h2>
-
-        <fieldset>
-
-            <p><label><b>Name</b></label>
-                <input type="text" id="Name" name="Name" required></p>
-
-            <p><label><b>Username</b></label>
-                <input type="text" id="Username" name="Username" required></p>
-            <!--cannot be duplicate of another user-->
-
-            <p><label><b>Password</b></label>
-                <input type="password" id="Enter Password" name="Password" required></p>
-
-        </fieldset>
-
-        <h4>Once Complete, Click the Button Below</h4>
-
-        <td colspan = "2"><input type="submit" value="Submit" /></td>
-    </center>
-</form>
-</body>
-<body>
 
 </body>
 </html>
