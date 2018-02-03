@@ -17,14 +17,9 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
     $pass = $_POST['Password'];
     $dbObj = new DBManagement();
 
-    if (mysqli_connect_errno()) {
-        echo 'Connection to database failed:'.mysqli_connect_error();
-        exit();
-    }
-
-    $query = mysqli_query($dbObj->getDBConnect(),"select * from users where userName='".$user."' and password='".$pass."'");
+    $query = mysqli_query($dbObj->dbConnect(),"select * from users where userName='".$user."' and password='".$pass."'");
     $result = mysqli_fetch_array($query);
-    $dbObj->closeDBConnect();
+    $dbObj->dbClose();
     
     if ($result>0)
     {

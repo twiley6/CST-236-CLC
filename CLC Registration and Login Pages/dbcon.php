@@ -7,33 +7,68 @@ Jan. 27, 2018
 DB management
 -->
 <?php
-//set DB connection
-//Gary Sundquist connection info
-$con = mysqli_connect('localhost', 'admin','password', 'cst236db') or die("couldn't connect");
-//Justin Hamman connection info
-//Robert Nichols connection info
-//Tim Wiley connection info
 
 Class DBManagement{
 	
-	function getDBConnect(){
-	if ($GLOBALS['con']->connect_error) {
-		echo "<p>Error: Could not connect to database.<br/>
-        Please try again later.</p>";
+	//set DB connection
+	//Gary Sundquist connection info
+	private $con = mysqli_connect('localhost', 'admin','password', 'cst236db') or die("couldn't connect");
+	//Justin Hamman connection info
+	//Robert Nichols connection info
+	//Tim Wiley connection info
+	
+	
+	//function to get dbconnection	
+	public function dbConnect(){
+		if (this.$con->connect_error) {
+		echo "<p>Error processing SQL transaction. " +
+         "Error: </p>" .this.$con->error;
 		exit();
 	}
-	return $GLOBALS['con'];
+	return $con;
 }
-	function closeDBConnect(){
-		mysqli_close($GLOBALS['con']);
+	
+	//function to close db connection
+	public function dbClose(){
+		mysqli_close(dbConnect());
 	}
 	
-	function dbQuery($query){
-		while ($queryResult = mysqli_fetch_array(mysqli_query($GLOBALS['con']), $query)){
+	//function to get multiple rows back from the DB
+	public function dbArrayResult($query){
+		while ($queryResult = mysqli_fetch_array(dbConnect(), $query)){
 		$queryResult[] = queryResult;
 		}
-		closeDBConnect();
+		dbClose();
 		return $queryResult[];
+	}
+	
+	//function to return array of single result
+	public function dbSingleResult($query){
+	$singleRowResult = mysql_query(dbConnect(), $query);
+	return mysql_fetch_row($singleRowResult);
+	}
+	
+	//function for insert
+	public function dbInsert($query){
+		mysqli_query(dbConnect(), $query);
+	}
+	
+
+	//function to delete from db
+	public function dbDelete($query){
+		mysqli_query(dbConnect(), $query);
+	}
+	
+	//function to update checks old data for changes
+	public function dbUpdate($oldDataQuery,$newDataQuery){
+		/*if old data exists process new data request else 
+		echo error */
+		$oldQueryResult = mysql_query($dbConnect(), $oldDataQuery);
+		if ($oldQueryResult){
+			mysql_query($dbConnect(), $newDataQuery);
+		}else{
+			echo "Could not execute query: " .mysql_error();
+		}
 	}
 }
 ?>
