@@ -4,24 +4,50 @@ Gary Sundquist
 Justin Hamman
 Robert Nichols
 Jan. 27, 2018
-Alows for a user to log in.
+DB management
 -->
 <?php
-//set DB connection
-//Gary Sundquist connection info
-$con = mysqli_connect('localhost', 'admin','password', 'cst236db') or die("couldn't connect");
-//Justin Hamman connection info
-//Robert Nichols connection info
-//Tim Wiley connection info
 
-Class DBConnection{
-	
-	function getDBConnect(){
-	return $GLOBALS['con'];
-
+Class DBManagement{
+			
+	//function to get dbconnection	
+	public function dbConnect(){
+		//set DB connection
+		//Gary Sundquist connection info
+		$con = mysqli_connect('localhost', 'admin','password', 'cst236db') or die("couldn't connect");
+		//Justin Hamman connection info
+		//Robert Nichols connection info
+		//Tim Wiley connection info
+		if ($con->connect_error) {
+		echo "<p>Error processing SQL transaction. " +
+         "Error: </p>" .this.$con->error;
+		exit();
+	}
+	return $con;
 }
-	function closeDBConnect(){
-		mysqli_close($GLOBALS['con']);
+	
+	//function to close db connection
+	public function dbClose(){
+		mysqli_close($this->dbConnect());
+	}
+	
+	//Process queries such as selects, deletes, inserts
+	public function dbQuery($query){
+		$result=mysqli_query($this->dbConnect(),$query);
+		$this->dbClose();
+		return $result;
+	}
+		
+	//function to update checks old data for changes
+	public function dbUpdate($oldDataQuery,$newDataQuery){
+		/*if old data exists process new data request else 
+		echo error */
+		if ($oldQueryResult = mysqli_query($this->dbConnect(), $oldDataQuery)){
+			mysqli_query($this->dbConnect(), $newDataQuery);
+			$this->dbClose();
+		}else{
+			echo "Could not execute query: " .mysql_error();
+		}
 	}
 }
 ?>

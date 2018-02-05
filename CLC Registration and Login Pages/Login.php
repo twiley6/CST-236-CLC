@@ -7,7 +7,7 @@ Jan. 27, 2018
 Alows for a user to log in.
 -->
 <?php
-require_once('dbcon.php');
+include('dbcon.php');
 session_start();
 
 if (isset($_POST['Username']) && isset($_POST['Password']))
@@ -15,16 +15,11 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
     // if the user has just tried to log in
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
-    $dbObj = new DBConnection();
+    $dbObj = new DBManagement();
 
-    if (mysqli_connect_errno()) {
-        echo 'Connection to database failed:'.mysqli_connect_error();
-        exit();
-    }
-
-    $query = mysqli_query($dbObj->getDBConnect(),"select * from users where userName='".$user."' and password='".$pass."'");
+    $query = mysqli_query($dbObj->dbConnect(),"select * from users where userName='".$user."' and password='".$pass."'");
     $result = mysqli_fetch_array($query);
-    $dbObj->closeDBConnect();
+    $dbObj->dbClose();
     
     if ($result>0)
     {
@@ -111,8 +106,8 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="useradmin.php" class="right">Admin Panel</a>
-        <a href="createnew.html">Product Catalog</a>
+        <a href="adminPanel.php" class="right">Admin Panel</a>
+        <a href="catalog.html">Product Catalog</a>
         <a href="login.php" class="active">Login</a>
     </div>
 </div>

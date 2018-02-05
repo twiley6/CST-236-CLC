@@ -73,7 +73,7 @@ Stores the information from the registration page into the database.-->
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="useradmin.php" class="right">Admin Panel</a>
+        <a href="adminPanel.php" class="right">Admin Panel</a>
         <a href="createnew.html">New Blog</a>
         <a href="login.php">Login</a>
     </div>
@@ -93,9 +93,9 @@ Stores the information from the registration page into the database.-->
     $name = $_POST['Name'];
     $username = $_POST['Username'];
     $password = $_POST['Password'];
-	$dbObj = new DBConnection();
+	$dbObj = new DBManagement();
 
-	if ($dbObj->getDBConnect()->connect_error) {
+	if ($dbObj->dbConnect()->connect_error) {
         echo "<p>Error: Could not connect to database.<br/>
              Please try again later.</p>";
         exit;
@@ -104,14 +104,14 @@ Stores the information from the registration page into the database.-->
     $query = "INSERT INTO users(name, userName, password) values
               ('".$name."', '".$username."', '".$password."')";
     
-    if (mysqli_query($dbObj->getDBConnect(),$query)) {
+    if (mysqli_query($dbObj->dbConnect(),$query)) {
         echo  "<p>Registration Successful!</p>";
         header('Location: login.php');
     } else {
         echo "<p>I'm sorry, an error has occurred.<br/>
               User has not been created please try again. </p>" . mysqli_error($dbObj->getDBConnect());
     }
-	  $dbObj->closeDBConnect(); 
+	  $dbObj->dbClose(); 
     ?>
     <h4>Click the button below to return to the login page</h4>
     <p><a href="login.php"><button>Return to Login Page</button></a></p>
