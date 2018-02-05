@@ -7,7 +7,7 @@ Jan. 27, 2018
 Alows for a user to log in.
 -->
 <?php
-require_once('dbcon.php');
+include('dbcon.php');
 session_start();
 
 if (isset($_POST['Username']) && isset($_POST['Password']))

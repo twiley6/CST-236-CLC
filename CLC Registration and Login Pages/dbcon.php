@@ -9,18 +9,16 @@ DB management
 <?php
 
 Class DBManagement{
-	
-	//set DB connection
-	//Gary Sundquist connection info
-	private $con = mysqli_connect('localhost', 'admin','password', 'cst236db') or die("couldn't connect");
-	//Justin Hamman connection info
-	//Robert Nichols connection info
-	//Tim Wiley connection info
-	
-	
+			
 	//function to get dbconnection	
 	public function dbConnect(){
-		if (this.$con->connect_error) {
+		//set DB connection
+		//Gary Sundquist connection info
+		$con = mysqli_connect('localhost', 'admin','password', 'cst236db') or die("couldn't connect");
+		//Justin Hamman connection info
+		//Robert Nichols connection info
+		//Tim Wiley connection info
+		if ($con->connect_error) {
 		echo "<p>Error processing SQL transaction. " +
          "Error: </p>" .this.$con->error;
 		exit();
@@ -30,42 +28,23 @@ Class DBManagement{
 	
 	//function to close db connection
 	public function dbClose(){
-		mysqli_close(dbConnect());
+		mysqli_close($this->dbConnect());
 	}
 	
-	//function to get multiple rows back from the DB
-	public function dbArrayResult($query){
-		while ($queryResult = mysqli_fetch_array(dbConnect(), $query)){
-		$queryResult[] = queryResult;
-		}
-		dbClose();
-		return $queryResult[];
+	//Process queries such as selects, deletes, inserts
+	public function dbQuery($query){
+		$result=mysqli_query($this->dbConnect(),$query);
+		$this->dbClose();
+		return $result;
 	}
-	
-	//function to return array of single result
-	public function dbSingleResult($query){
-	$singleRowResult = mysql_query(dbConnect(), $query);
-	return mysql_fetch_row($singleRowResult);
-	}
-	
-	//function for insert
-	public function dbInsert($query){
-		mysqli_query(dbConnect(), $query);
-	}
-	
-
-	//function to delete from db
-	public function dbDelete($query){
-		mysqli_query(dbConnect(), $query);
-	}
-	
+		
 	//function to update checks old data for changes
 	public function dbUpdate($oldDataQuery,$newDataQuery){
 		/*if old data exists process new data request else 
 		echo error */
-		$oldQueryResult = mysql_query($dbConnect(), $oldDataQuery);
-		if ($oldQueryResult){
-			mysql_query($dbConnect(), $newDataQuery);
+		if ($oldQueryResult = mysqli_query($this->dbConnect(), $oldDataQuery)){
+			mysqli_query($this->dbConnect(), $newDataQuery);
+			$this->dbClose();
 		}else{
 			echo "Could not execute query: " .mysql_error();
 		}
