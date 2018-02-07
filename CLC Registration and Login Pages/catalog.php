@@ -19,7 +19,6 @@ Jan. 30, 2018
             width: 30%;
             border: 2px solid #cccccc;
         }
-
         label {
             width: 75px;
             float: left;
@@ -27,12 +26,10 @@ Jan. 30, 2018
             font-weight: bold;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
-
         input {
             border: 1px solid #000;
             padding: 3px;
         }
-
         .navbar {
             background-color: #333;
             overflow: hidden;
@@ -40,7 +37,6 @@ Jan. 30, 2018
             bottom: 0;
             width: 100%;
         }
-
         .navbar a {
             float: left;
             display: block;
@@ -50,17 +46,15 @@ Jan. 30, 2018
             text-decoration: none;
             font-size: 17px;
         }
-
         .navbar a:hover {
             background-color: #ddd;
             color: black;
         }
-
         .navbar a.active {
             background-color: #4CAF50;
             color: white;
         }
-        
+
         .navbar a.right {
             float: right;
         }
@@ -73,7 +67,7 @@ Jan. 30, 2018
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="adminPanel.php" class="right">Admin Panel</a>
+        <a href="Admin.html" class="right">Admin Panel</a>
         <a href="catalog.html">Product Catalog</a>
         <a href="login.php" class="active">Login</a>
     </div>

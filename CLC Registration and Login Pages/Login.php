@@ -9,21 +9,23 @@ Alows for a user to log in.
 <?php
 require_once('dbcon.php');
 session_start();
-
 if (isset($_POST['Username']) && isset($_POST['Password']))
 {
     // if the user has just tried to log in
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
-    $dbObj = new DBManagement();
-
-    $query = mysqli_query($dbObj->dbConnect(),"select * from users where userName='".$user."' and password='".$pass."'");
+    $dbObj = new DBConnection();
+    if (mysqli_connect_errno()) {
+        echo 'Connection to database failed:'.mysqli_connect_error();
+        exit();
+    }
+    $query = mysqli_query($dbObj->getDBConnect(),"select * from users where userName='".$user."' and password='".$pass."'");
     $result = mysqli_fetch_array($query);
-    $dbObj->dbClose();
-    
+    $dbObj->closeDBConnect();
+
     if ($result>0)
     {
-// if they are in the database register the user
+// if they are in the database as a register the user
         $_SESSION['valid_user'] = $user;
     }
 }
@@ -42,7 +44,6 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
             width: 30%;
             border: 2px solid #cccccc;
         }
-
         label {
             width: 75px;
             float: left;
@@ -50,7 +51,6 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
             font-weight: bold;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
-
         button {
             background-color: #4CAF50;
             color: white;
@@ -60,12 +60,10 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
             cursor: pointer;
             width: 100%;
         }
-
         input {
             border: 1px solid #000;
             padding: 3px;
         }
-
         .navbar {
             background-color: #333;
             overflow: hidden;
@@ -73,7 +71,6 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
             bottom: 0;
             width: 100%;
         }
-
         .navbar a {
             float: left;
             display: block;
@@ -83,17 +80,14 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
             text-decoration: none;
             font-size: 17px;
         }
-
         .navbar a:hover {
             background-color: #ddd;
             color: black;
         }
-
         .navbar a.active {
             background-color: #4CAF50;
             color: white;
         }
-
         .navbar a.right {
             float: right;
         }
@@ -106,8 +100,8 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="adminPanel.php" class="right">Admin Panel</a>
-        <a href="catalog.html">Product Catalog</a>
+        <a href="Admin.html" class="right">Admin Panel</a>
+        <a href="createnew.html">Product Catalog</a>
         <a href="login.php" class="active">Login</a>
     </div>
 </div>
@@ -131,13 +125,12 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
         }
         else
         {
-            /* please enter username and password prompt if they user 
+            /* please enter username and password prompt if they user
              * trys to submit without a username and or password
              */
             echo '<fieldset>';
             echo '<legend>Please enter a valid username and password</legend>';
         }
-
         //Login form fields
         echo '<form action="login.php" method="post">';
         echo '<fieldset>';
@@ -150,10 +143,8 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
         echo '<button type="Submit" name="Login">Login</button>';
         echo 'New? <a href="registerpage.html">Register By Clicking Here!</a>';
         echo '</form>';
-
     }
     echo '</fieldset>';
-
     ?>
 
 </center>
