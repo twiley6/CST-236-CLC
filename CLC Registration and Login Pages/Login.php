@@ -7,25 +7,21 @@ Jan. 27, 2018
 Alows for a user to log in.
 -->
 <?php
-require_once('dbcon.php');
+include('dbcon.php');
 session_start();
 if (isset($_POST['Username']) && isset($_POST['Password']))
 {
     // if the user has just tried to log in
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
-    $dbObj = new DBConnection();
-    if (mysqli_connect_errno()) {
-        echo 'Connection to database failed:'.mysqli_connect_error();
-        exit();
-    }
-    $query = mysqli_query($dbObj->getDBConnect(),"select * from users where userName='".$user."' and password='".$pass."'");
+    $dbObj = new DBManagement();
+    $query = mysqli_query($dbObj->dbConnect(),"select * from users where userName='".$user."' and password='".$pass."'");
     $result = mysqli_fetch_array($query);
-    $dbObj->closeDBConnect();
+    $dbObj->dbClose();
 
     if ($result>0)
     {
-// if they are in the database as a register the user
+// if they are in the database register the user
         $_SESSION['valid_user'] = $user;
     }
 }
@@ -102,7 +98,7 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
         <a href="home.html">Home</a>
         <a href="Admin.html" class="right">Admin Panel</a>
         <a href="createnew.html">Product Catalog</a>
-        <a href="login.php" class="active">Login</a>
+        <a href="Login.php" class="active">Login</a>
     </div>
 </div>
 <center>
@@ -112,8 +108,8 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
     {
         echo '<fieldset>';
         echo '<p>You are logged in as: '.$_SESSION['valid_user'].' <br />';
-        echo '<a href="logout.php">Log out</a></p>';
-        echo '<a href="userspage.php">Continue to your Dashboard</a>';
+        echo '<a href="Logout.php">Log out</a></p>';
+        //echo '<a href="">Continue to your Dashboard</a>';
     }
     else
     {
@@ -132,7 +128,7 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
             echo '<legend>Please enter a valid username and password</legend>';
         }
         //Login form fields
-        echo '<form action="login.php" method="post">';
+        echo '<form action="Login.php" method="post">';
         echo '<fieldset>';
         echo '<legend>Login Now!</legend>';
         echo '<p><label for="Username">Username:</label>';
@@ -141,7 +137,7 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
         echo '<input type="Password" name="Password" placeholder="Password" size="30"/></p>';
         echo '</fieldset>';
         echo '<button type="Submit" name="Login">Login</button>';
-        echo 'New? <a href="registerpage.html">Register By Clicking Here!</a>';
+        echo 'New? <a href="registerPage.html">Register By Clicking Here!</a>';
         echo '</form>';
     }
     echo '</fieldset>';
