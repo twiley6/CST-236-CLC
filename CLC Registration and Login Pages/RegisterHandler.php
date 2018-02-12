@@ -82,36 +82,31 @@ Stores the information from the registration page into the database.-->
     <h1>New User Registration Confirmation</h1>
 
     <?php
-    require_once('dbcon.php');
+    include('dbcon.php');
+    include('customerManagement.php');
+    
     if (!isset($_POST['Name']) || !isset($_POST['Username'])|| 
-    	!isset($_POST['Password'])){
+    	!isset($_POST['Password']) || !isset($_POST['Address']) || !isset($_POST['selectRole'])){
         echo "<p><strong>You have not entered all the required details. Please try again</strong></p>";
         exit;
     }
 
     // create short variable names
-    $name = $_POST['Name'];
-    $username = $_POST['Username'];
-    $password = $_POST['Password'];
-	$dbObj = new DBManagement();
-
-	if ($dbObj->dbConnect()->connect_error) {
-        echo "<p>Error: Could not connect to database.<br/>
-             Please try again later.</p>";
-        exit;
-    }else echo "Connected successfully";
-
-    $query = "INSERT INTO users(name, userName, password) values
-              ('".$name."', '".$username."', '".$password."')";
+    $nCustomer = new Customer();
+    $nCustomerManagement = new customerManagement();
+    $nCustomer->setName($_POST['Name']);
+    $nCustomer->setUserName($_POST['Username']);
+    $nCustomer->setPassword($_POST['Password']);
+    $nCustomer->setAddress($_POST['Address']);
+    $nCustomer->setRoleID($_POST['selectRole']);
+    $dbObj = new DBManagement();
     
-    if (mysqli_query($dbObj->dbConnect(),$query)) {
-        echo  "<p>Registration Successful!</p>";
-        header('Location: login.php');
+    if ($nCustomerManagement->createCustomer($nCustomer)) {
+    	echo  "<p>".$nCustomer->getName()." was successfully created!</p>";
     } else {
         echo "<p>I'm sorry, an error has occurred.<br/>
-              User has not been created please try again. </p>" . mysqli_error($dbObj->getDBConnect());
+              User has not been created please try again. </p>" . mysqli_error($dbObj->dbConnect());
     }
-	  $dbObj->dbClose(); 
     ?>
     <h4>Click the button below to return to the login page</h4>
     <p><a href="login.php"><button>Return to Login Page</button></a></p>

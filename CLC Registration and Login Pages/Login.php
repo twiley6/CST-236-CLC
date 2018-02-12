@@ -148,7 +148,7 @@ if (isset($_POST['Username']) && isset($_POST['Password']))
         echo '<input type="Password" name="Password" placeholder="Password" size="30"/></p>';
         echo '</fieldset>';
         echo '<button type="Submit" name="Login">Login</button>';
-        echo 'New? <a href="registerpage.html">Register By Clicking Here!</a>';
+        echo 'New? <a href="registerpage.php">Register By Clicking Here!</a>';
         echo '</form>';
 
     }
