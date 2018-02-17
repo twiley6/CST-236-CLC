@@ -37,7 +37,6 @@ Class Catalog{
 
 Class catalogManagement{
 	
-	
     //inserts a catalog
 	public function createCatalog($name){
 		$query = "INSERT INTO catalog(name) values

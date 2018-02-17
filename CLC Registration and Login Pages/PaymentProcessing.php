@@ -17,7 +17,7 @@ class transaction{
 	private $date_Time;
 	private $sale_Amount;
 	private $tax_Amount;
-	private $fk_UserID;
+	private $fk_UserName;
 	
 	//get set functions
 	function setTransaction_ID($transaction_ID){
@@ -50,12 +50,12 @@ class transaction{
 		return $this->tax_Amount;
 	}
 	
-	function setFk_UserName($fk_UserID){
-		$this->fk_UserName= $fk_UserID;
+	function setFk_UserName($fk_UserName){
+		$this->fk_UserName= $fk_UserName;
 	}
 	
-	function getFk_UserID(){
-		return $this->fk_UserID;
+	function getFk_UserName(){
+		return $this->fk_UserName;
 	}
 }
 
@@ -73,9 +73,9 @@ class transactionManagement{
 		}
 		//Creates a transaction
 		public function createTransaction(transaction $nTransaction){
-			$query ="Insert INTO transactions(transaction_id,date_time,sale_amount,tax_amount,fk_userID)".
-			 " VALUES(".$nTransaction->getTransaction_ID().",".$nTransaction->getDate_Time().
-			",".$nTransaction->getSale_Amount().",".$nTransaction->getTax_Amount().",". $nTransaction->getFk_UserID().
+			$query ="Insert INTO transactions(date_time,sale_amount,tax_amount,fk_userID)".
+			 " VALUES(".$nTransaction->getDate_Time().
+			",".$nTransaction->getSale_Amount().",".$nTransaction->getTax_Amount().",". $nTransaction->getFk_UserName().
 			")";
 			return $GLOBALS['dbObj']->dbQuery($query);
 		}
@@ -88,10 +88,10 @@ class transactionManagement{
 		public function updateTransaction(transaction $oTransaction, transaction $nTransaction){
 			$oldQuery = "Select * from transactions Where transaction_id = ".$oTransaction->getTransaction_ID()
 			." AND date_time=".$oTransaction->getDate_Time()." AND sale_amount=".$oTransaction->getSale_Amount().
-			" AND tax_amount=".$oTransaction->getTax_Amount()." AND fk_userID=".$oTransaction->getFk_UserID();
+			" AND tax_amount=".$oTransaction->getTax_Amount()." AND fk_userName=".$oTransaction->getFk_UserName();
 			$newQuery = "Update transactions SET date_time=".
 					$nTransaction->getDate_Time().", sale_amount=".$nTransaction->getSale_Amount().
-					"tax_amount=".$nTransaction->getTax_Amount().", fk_userID=".$nTransaction->getFk_UserID().
+					"tax_amount=".$nTransaction->getTax_Amount().", fk_userName=".$nTransaction->getFk_UserName().
 					" WHERE transaction_id=".$nTransaction->getTransaction_ID();
 					return $GLOBALS['dbObj']->dbUpdate($oldQuery,$newQuery);
 		}
@@ -153,10 +153,16 @@ class saleItem{
 		
 	}
 	
-	class saleItemManagement{
+class saleItemManagement{
 		//Returns a sale item
 		public function getSaleItem($saleID){
 			$query = "Select * from sale_item where sale_id = " . $saleID;
+			return $GLOBALS['dbObj']->dbQuery($query);
+		}
+		
+		//Returns all sale items with a specific transaction ID
+		public function getSaleItemsWithTransactionID($transactionID){
+			$query ="Select * from sale_item where fk_productID = " . $transactionID;
 			return $GLOBALS['dbObj']->dbQuery($query);
 		}
 		//returns all sale items
@@ -166,10 +172,17 @@ class saleItem{
 		}
 		//Creates a sale item
 		public function createSaleItem(saleItem $nSaleItem){
-			$query ="Insert INTO sale_item(qty_sold,price_per_unit,total_price,tax_amount,fk_transaction_id,fk_productID) 
+			$query ="Insert INTO sale_item(qty_sold,price_per_unit,total_price,tax_amount,fk_productID) 
 			VALUES(".$nSaleItem->getQtySold().",".$nSaleItem->getPricePerUnit().",".$nSaleItem->getTotalPrice().",".
-			$nSaleItem->getTaxAmount().",".$nSaleItem->getFkTransactionID().",".$nSaleItem->getFkProductID()
+			$nSaleItem->getTaxAmount().",".$nSaleItem->getFkProductID()
 			.")";
+			return $GLOBALS['dbObj']->dbQuery($query);
+		}
+		
+		//Adds transactionID to sale item
+		public function setSaleItemTransactionID($transactionID, $saleID){
+			$newQuery = "Update sale_item SET fk_transaction_id=".$transactionID.
+					" Where sale_id=".$saleID;
 			return $GLOBALS['dbObj']->dbQuery($query);
 		}
 		//Deletes a sale item
@@ -177,6 +190,13 @@ class saleItem{
 		$query = "DELETE FROM sale_item WHERE sale_id = " . $saleID;
 		return $GLOBALS['dbObj']->dbQuery($query);
 		}
+		
+		//Deletes all sale items with productID
+		public function deleteSaleItemWithProductID($productID){
+			$query = "DELETE FROM sale_item WHERE fk_productID = " . $productID;
+			return $GLOBALS['dbObj']->dbQuery($query);
+		}
+		
 		//Updates a sale item
 		public function updateSaleItem(saleItem $oSaleItem, saleItem $nSaleItem){
 			$oldQuery = "Select * from sale_item Where sale_id = ".$oSaleItem->getSaleID()

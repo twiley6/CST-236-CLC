@@ -14,7 +14,6 @@ $dbObj = new DBManagement();
 Class Product{
 	private $prodID;
 	private $name;
-	private $description;
 	private $stock;
 	private $price;
 	private $catalogID;
@@ -35,15 +34,7 @@ Class Product{
 	public function getName(){
 		return $this->name;
 	}
-	
-	public function setDescription($description){
-		$this->description= $description;
-	}
-	
-	public function getDescription(){
-		return $this->description;
-	}
-	
+			
 	public function setStock($stock){
 		$this->stock = $stock;
 	}
@@ -69,13 +60,13 @@ Class Product{
 	}	
 }
 
-//Product CRUD methods
+//Product methods
 Class ProductManagement{
 	
     //inserts a product
 	public function createProduct(Product $nProd){
 		$query = "INSERT INTO products(name, description, stock, price, fk_catalogID) values
-              ('".$nProd->getName()."', '".$nProd->getDescription().
+              ('".$nProd->getName().
 			   "', ".$nProd->getStock()." , ".$nProd->getPrice().
 		       " , ".$nProd->getCatalogID().")";
 		return $GLOBALS['dbObj']->dbQuery($query);
@@ -108,7 +99,6 @@ Class ProductManagement{
 	//updates product not checking old data
 	public function updateProductWithoutOldData(Product $nProd){
 		$newQuery = "UPDATE products SET name='".$nProd->getName().
-				"', description='".$nProd->getDescription().
 				"', stock=".$nProd->getStock().
 				" , price=".$nProd->getPrice().
 				" , fk_catalogID=".$nProd->getCatalogID().
@@ -117,25 +107,38 @@ Class ProductManagement{
 		return $GLOBALS['dbObj']->dbQuery($newQuery);
 	}
 	
-	
 	//TODO: updates a product checking old data
 	public function updateProduct(Product $oProd,Product $nProd){
 		
 		$oldQuery = "SELECT * FROM products WHERE name='" . $$oProd->getName(). 
-		"' AND description='".$oProd->getDescription().
 		"' AND stock=".$oProd->getStock().
 		" AND price=".$oProd->getPrice().
 		" AND fk_catalogID=".$oProd->getCatalogID(). 
 		" AND productID=".$oProd->getProdID();
 		
-		$newQuery = "UPDATE products SET name='".$$nProd->getName()."', ".
-				 "description='".$nProd->getDescription(). 
+		$newQuery = "UPDATE products SET name='".$$nProd->getName()."', ". 
 				 "', stock=".$nProd->getStock().
 				 " , price=".$nProd->getPrice().
 				 " , fk_catalogID=".$nProd->getCatalogID().
 				 " Where productID=".$nProd->getProdID();
 		
 		return $GLOBALS['dbObj']->dbUpdate($oldQuery,$newQuery);
-	}		
+	}	
+	
+	//Gets products based on catalogID
+	public function getProductsWithCatalogID($catalogID){
+		$newQuery = "SELECT * products ".
+		" WHERE fk_catalogID=".$catalogID;
+		
+		return $GLOBALS['dbObj']->dbQuery($newQuery);
+	}
+	
+	//Gets products based on product name
+	public function getProductsWithName($name){
+		$newQuery = "SELECT * products ".
+				" WHERE name LIKE %'".$name."%'";
+		
+		return $GLOBALS['dbObj']->dbQuery($newQuery);
+	}
 }	
 ?>

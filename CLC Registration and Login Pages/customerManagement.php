@@ -13,22 +13,19 @@ $dbObj = new DBManagement();
 
 //Customer class
 class Customer{
-	private $userID;
 	private $name;
 	private $password;
 	private $userName;
 	private $address;
 	private $roleID;
+	private $fk_AcctNumber;
 	
 	//get set functions
 	function setRoleID($roleID){
-		$this->roleID= $roleID;
+		$this->roleID = $roleID;
 	}
 	function setAddress($address){
-		$this->address= $address;
-	}
-	function setUserID($userID){
-		$this->userID = $userID;
+		$this->address = $address;
 	}
 	function setName($name){
 		$this->name = $name;
@@ -37,10 +34,10 @@ class Customer{
 		$this->password = $password;
 	}
 	function setUserName($userName){
-		$this->userName= $userName;
+		$this->userName = $userName;
 	}	
-	function getUserID(){
-		return $this->userID;
+	function setFK_AcctNumber($fk_AcctNumber){
+		$this->fk_AcctNumber = $fk_AcctNumber;
 	}
 	function getName(){
 		return $this->name;
@@ -57,12 +54,15 @@ class Customer{
 	function getRoleID(){
 		return $this->roleID;
 	}	
+	function getFK_AcctNumber(){
+		return $this->fk_AcctNumber;
+	}
 }
 
 //Bank class
 class Bank{
 	private $acc_Number;
-	private $userID;
+	private $fk_UserName;
 	private $cardType;
 	private $balance;
 	
@@ -70,8 +70,8 @@ class Bank{
 	function setAcc_Number($acc_Number){
 		$this->acc_Number = $acc_Number;
 	}
-	function setUserName($userID){
-		$this->userID= $userID;
+	function setFkUserName($fk_UserName){
+		$this->fk_UserName= $fk_UserName;
 	}
 	
 	function setCardType($cardType){
@@ -85,8 +85,8 @@ class Bank{
 	function getAcc_Number(){
 		return $this->acc_Number;
 	}
-	function getUserID(){
-		return $this->userID;
+	function getFkUserName(){
+		return $this->fk_UserName;
 	}
 	
 	function getCardType(){
@@ -130,31 +130,38 @@ class customerManagement{
 					$nCustomer->getAddress()."')";
 			return $GLOBALS['dbObj']->dbQuery($query);
 		}
+		
+		//Adds a bank account to a customer
+		public function insertBankAccount($acctNumber){
+			$query = "UPDATE users SET fk_acct_Number = ". $acctNumber;
+              return $GLOBALS['dbObj']->dbQuery($query);
+		}
+		
 		//gets all customers
 		public function getCustomers(){
 			$query = "Select * from users";
 			return $GLOBALS['dbObj']->dbQuery($query);
 		}
 		//gets a single customer
-		public function getCustomer($userID){
-			$query = "Select * from users where userID = " . $userID;
+		public function getCustomer($userName){
+			$query = "Select * from users where userName = " . $userName;
 			return $GLOBALS['dbObj']->dbQuery($query);
 		}
 		//deletes a customer
-		public function deleteCustomer($userID){;
-		$query = "DELETE FROM users WHERE userID = " . $userID;
+		public function deleteCustomer($userName){;
+		$query = "DELETE FROM users WHERE userName = " . $userName;
 		return $GLOBALS['dbObj']->dbQuery($query);
 		}
 		//updates a customer
 		public function updateCustomer(Customer $oCustomer, Customer $nCustomer){
 			
-			$oldQuery = "SELECT * FROM users WHERE userID=".$oCustomer->getUserID().
-			" AND name=".$oCustomer->getName() ."' AND password= '". $oCustomer->getPassword().
+			$oldQuery = "SELECT * FROM users WHERE ". 
+			" name=".$oCustomer->getName() ."' AND password= '". $oCustomer->getPassword().
 			" ' AND userName= '". $oCustomer->getUserName(). "' AND fk_role_id=". $oCustomer->getRoleID().
 			" AND address='". $oCustomer->getAddress()."'";
 			
-			$newQuery = "UPDATE users SET userID=".$nCustomer->getUserID().
-			", name='".$nCustomer->getName() ."', password= '". $nCustomer->getPassword().
+			$newQuery = "UPDATE users SET ".
+			"name='".$nCustomer->getName() ."', password= '". $nCustomer->getPassword().
 			" ', userName= '". $nCustomer->getUserName(). "', fk_role_id=". $nCustomer->getRoleID().
 			", address='".$nCustomer->getAddress()."'";
 			
@@ -207,7 +214,7 @@ class bankManagement{
 	}
 	//Creates a bank account
 	public function createBankAccount(Bank $nBank){
-		$query ="Insert INTO bank(userID,card_type,balance) VALUES(".$nBank->getUserID().
+		$query ="Insert INTO bank(fk_userName,card_type,balance) VALUES(".$nBank->getFkUserName().
 		",'".$nBank->getCardType()."',".$nBank->getBalance().")";
 		return $GLOBALS['dbObj']->dbQuery($query);
 	}
@@ -219,17 +226,12 @@ class bankManagement{
 	//Updates a bank account
 	public function updateBankAccount(Bank $oBank, Bank $nBank){
 		$oldQuery = "Select * from bank Where acct_number = ".$oBank->getAcc_Number()
-		." AND fk_userID=".$oBank->getUserID()." AND balance=".$oBank->getBalance().
+		." AND fk_userName=".$oBank->getFkUserName()." AND balance=".$oBank->getBalance().
 		" AND card_type='".$oBank->getCardType()."'";
-		$newQuery = "Update bank SET fk_userID=".$nBank->getUserID().", card_type='".
+		$newQuery = "Update bank SET fk_userName=".$nBank->getFkUserName().", card_type='".
 				$nBank->getCardType()."', balance=".$nBank->getBalance().
 				" Where acct_number=".$oBank->getAcc_Number();
 		return $GLOBALS['dbObj']->dbUpdate($oldQuery,$newQuery);
 	}
-}
-
-//CustomerAction class
-class customerAction{
-	
 }
 ?>

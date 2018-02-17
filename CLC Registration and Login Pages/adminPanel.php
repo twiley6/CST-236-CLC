@@ -310,18 +310,16 @@ $(document).ready(function(){
     <p id="UpdateCatResult"></p>
     <button type="button" id="DeleteCat">Delete Catalog</button>
     <p id="DeleteCatResult"></p>
-    <!--shows the name, description, stock, and price of selected product. Blank temporarily-->
+    <!--shows the name, stock, and price of selected product. Blank temporarily-->
     <h4>Products</h4>
         <table>
             <tr>
                 <th>Name</th>
-                <th>Description</th>
                 <th>QOH</th>
                 <th>Price</th>
             </tr>
             <tr>
                 <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodDescription"></td>
                 <td><input type="text" id="prodQOH"></td>
                 <td><input type="text" id="prodPrice"></td>
             </tr>
