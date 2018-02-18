@@ -126,6 +126,7 @@ session_start();
         </select>
         <h3>or search for a product here</h3>
         <p><input type="search" id="prodSearch"></p>
+        <input type="submit" value="Search">
 
         <!--shows the name, description, stock, and price of selected product. Blank temporarily-->
         <h4>Products</h4>
