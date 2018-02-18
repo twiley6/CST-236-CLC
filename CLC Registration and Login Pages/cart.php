@@ -108,7 +108,7 @@ session_start();
 </div>
 <center>
     <fieldset>
-        <h4>Your Shopping Cart</h4>
+        <h1>Your Shopping Cart</h1>
 
         <table>
             <tr>
@@ -117,26 +117,37 @@ session_start();
                 <th>Price</th>
             </tr>
             <tr>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQuantity"></td>
-                <td><input type="text" id="prodPrice"></td>
-            </tr>
-            <tr>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQuantity"></td>
-                <td><input type="text" id="prodPrice"></td>
-            </tr>
-            <tr>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQuantity"></td>
-                <td><input type="text" id="prodPrice"></td>
-            </tr>
-            <tr>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQuantity"></td>
-                <td><input type="text" id="prodPrice"></td>
-            </tr>
+                <?php
+                $prodName = '';
+                $selectedQuantity = 0;
+                $pricePerLine = 0.00;
 
+                echo '<td><label id="prodID">'.$prodName.'</label></td>';
+                echo '<td><label id="selectedQuantity">'.$selectedQuantity.'</label></td>';
+                echo '<td><label id="pricePerLine">'.$pricePerLine.'</label></td>';
+                ?>
+            </tr>
+        </table><br>
+        <table style="width: 35%">
+            <tr>
+                <th>Tax</th>
+            </tr>
+            <tr>
+                <?php
+                $tax = 0.00;
+
+                echo '<td><label id="tax">'.$tax.'</label></td>';
+                ?>
+            </tr>
+            <tr>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <?php
+                $totalPrice = 0.00;
+                echo '<td><b><label id="totalPrice">'.$totalPrice.'</label></b></td>';
+                ?>
+            </tr>
         </table>
         <button type="button" id="Checkout">Proceed to Checkout</button>
         <p id="Checkout"></p>
