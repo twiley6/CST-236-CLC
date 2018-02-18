@@ -75,7 +75,6 @@ session_start();
                 $.post("ProductHandler.php",
                     {
                         ProdNameCeate: $("#prodName").val(),
-                        ProdDescripCreate: $("#prodDescription").val(),
                         ProdQOHCreate: $("#prodQOH").val(),
                         PRODPriceCreate: $("#prodPrice").val(),
                         CatalogfkCreate: $("#catalogList").val()
@@ -113,7 +112,6 @@ session_start();
                     {
                         ProdID: $("#productList").val(),
                         ProdNameUpdate: $("#prodName").val(),
-                        ProdDescripUpdate: $("#prodDescription").val(),
                         ProdQOHUpdate: $("#prodQOH").val(),
                         ProdPriceUpdate: $("#prodPrice").val(),
                         CatalogfkUpdate: $("#catalogList").val()
@@ -137,7 +135,6 @@ session_start();
                 $.post("ProductHandler.php",
                 {
                   oldProdName: $("#prodName").val(),
-                  oldProdDescrip: $("#prodDescription").val(),
                   oldProdQOH: $("#prodQOH").val(),
                   oldPRODPrice: $("#prodPrice").val(),
                   oldCatalogfk: $("#catalogList").val()
@@ -164,7 +161,6 @@ session_start();
 
                     //alert("Data: " + data + "\nStatus: " + status);
                     //$('#prodName').val(product.name);
-                    //$('#prodDescription').val(product.desc);
                     //$('#prodQOH').val(product.stock);
                     //$('#prodPrice').val(product.price);
                     });
@@ -173,7 +169,7 @@ session_start();
     </script>
 
     <meta charset="UTF-8">
-    <title>Login Page</title>
+    <title>Admin</title>
     <style type="text/css">
         body {
             background-color: beige;
@@ -186,7 +182,7 @@ session_start();
 
         }
         fieldset {
-            width: 30%;
+            width: 50%;
             border: 2px solid #cccccc;
         }
         label {
@@ -203,7 +199,7 @@ session_start();
             margin: 8px 0;
             border: none;
             cursor: pointer;
-            width: 15%;
+            width: 25%;
         }
         input {
             border: 1px solid #000;
@@ -258,87 +254,83 @@ session_start();
     </style>
 </head>
 <body>
+
 <div class="header">
     <div class="logo">
         <h1>Purple Team</h1>
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="Admin.php" class="activeright">Admin Panel</a>
-        <a href="createnew.html">Product Catalog</a>
-        <a href="login.php">Login</a>
+        <a href="cart.php" class="right"><img src="cart.ico"></a>
+        <a href="adminPanel.php" class="activeright">Admin Panel</a>
+        <a href="catalog.php">Product Catalog</a>
+        <a href="Login.php">Login</a>
     </div>
 </div>
-
 <center><fieldset>
-    <h2>Products and Catalogs Management</h2>
-    <!--gives the option to only look at the catagory names one at a time and manipulate them-->
-    <p><label for ="catalogList">Catalog Name:</label></p>
-    <select id="catalogList" name="catalogList">
-        <?php
-		$cManagement = new catalogManagement();
-		$result = $cManagement->getCatalogs();
-        while ($row = mysqli_fetch_array ($result)){
-        echo "<option value='".$row["catalogID"]."'>".$row["name"]."</option>";
-        }
-        ?>
-    </select>
-    <!--gives the option to view each product one at a time and manipulate them-->
-    <p><label for ="productList" >Product Name:</label></p>
-    <select id="productList" name ="productList" onchange="">
-        <?php
-		$pManagement = new ProductManagement();
-		$result = $pManagement->getProducts();
-        while ($row = mysqli_fetch_array ($result)){
-        echo "<option value='".$row["productID"]."'>".$row["name"]."</option>";
-        }
-        ?>
-    </select>
-    </form>
-    <!--shows the name of the catalog. Blank temporarily-->
-    <h4>Catalogs</h4>
-    <table>
-        <tr>
-            <th>Name</th>
-        </tr>
-        <tr>
-            <td><input type="text" id="catalogName"></td>
-        </tr>
-    </table>
-    <!--these three buttons are for the catagory table only-->
-    <button type="Submit" name="CreateCat">Add New</button>
-    <button type="Submit" name="UpdateCat">Edit</button>
-    <button type="Submit" name="DeleteCat">Delete</button>
-    <!--shows the name, description, stock, and price of selected product. Blank temporarily-->
-    <h4>Products</h4>
+            <form>
+            <h2>Products and Catalogs Management</h2>
+            <!--gives the option to only look at the catagory names one at a time and manipulate them-->
+            <p><label for ="catalogList">Catalog Name:</label></p><br>
+            <select id="catalogList" name="catalogList" onchange="">
+                <?php
+                $cManagement = new catalogManagement();
+                $result = $cManagement->getCatalogs();
+                while ($row = mysqli_fetch_array ($result)){
+                    echo "<option value='".$row["catalogID"]."'>".$row["name"]."</option>";
+                }
+                ?>
+            </select>
+            <!--gives the option to view each product one at a time and manipulate them-->
+            <p><label for ="productList" >Product Name:</label></p><br>
+            <select id="productList" name ="productList" onchange="">
+                <?php
+                $pManagement = new ProductManagement();
+                $result = $pManagement->getProducts();
+                while ($row = mysqli_fetch_array ($result)){
+                    echo "<option value='".$row["productID"]."'>".$row["name"]."</option>";
+                }
+                ?>
+            </select>
+            </form>
+        <!--shows the name of the catalog. Blank temporarily-->
+        <h4>Catalogs</h4>
         <table>
             <tr>
                 <th>Name</th>
-                <th>Description</th>
+            </tr>
+            <tr>
+                <td><input type="text" id="catalogName"></td>
+            </tr>
+        </table>
+        <!--these three buttons are for the catagory table only-->
+        <button type="button" id="CreateCat">Add New Catalog</button>
+        <p id="CreateCatResult"></p>
+        <button type="button" id="UpdateCat">Update Catalog</button>
+        <p id="UpdateCatResult"></p>
+        <button type="button" id="DeleteCat">Delete Catalog</button>
+        <p id="DeleteCatResult"></p>
+        <!--shows the name, description, stock, and price of selected product. Blank temporarily-->
+        <h4>Products</h4>
+        <table>
+            <tr>
+                <th>Name</th>
                 <th>QOH</th>
                 <th>Price</th>
             </tr>
             <tr>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
+                <td><input type="text" id="prodName"></td>
+                <td><input type="text" id="prodQOH"></td>
+                <td><input type="text" id="prodPrice"></td>
             </tr>
         </table>
-    <!--these buttons are for the products only-->
-    <button type="Submit" name="CreateProd">Add New</button>
-    <button type="Submit" name="UpdateProd">Edit</button>
-    <button type="Submit" name="DeleteProd">Delete</button>
+        <!--these buttons are for the products only-->
+        <button type="button" id="CreateProd">Add New Product</button>
+        <p id="CreateProdResult"></p>
+        <button type="button" id="UpdateProd">Update Product</button>
+        <p id="UpdateProdResult"></p>
+        <button type="button" id="DeleteProd">Delete Product</button>
+        <p id="DeleteProdResult"></p>
     </fieldset></center>
-
 </body>
 </html>
-
-
-
-
-
-
-<?php
-require_once('dbcon.php');
-?>

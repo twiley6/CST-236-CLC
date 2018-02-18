@@ -8,10 +8,8 @@ Starts the session for the user that just logged in.-->
 
 
 <?php
-
 session_start();
 session_destroy();
 header('Location: login.php');
 exit;
-
 ?>
