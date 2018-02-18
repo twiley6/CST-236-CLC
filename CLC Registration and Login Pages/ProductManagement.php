@@ -1,22 +1,22 @@
-<!--CST-236 CLC-Registration and Login Pages
+<?php
+/*CST-236 CLC-Registration and Login Pages
 Tim Wiley
 Gary Sundquist
 Justin Hamman
 Robert Nichols
 Jan. 27, 2018
 Manages products table.
--->
-<?php
+*/
 require_once 'dbcon.php';
 $dbObj = new DBManagement();
 
 //Product class
 Class Product{
-	private $prodID;
-	private $name;
-	private $stock;
-	private $price;
-	private $catalogID;
+	public $prodID;
+	public $name;
+	public $stock;
+	public $price;
+	public $catalogID;
 	
 	//get & set functions
 	public function setProdID($prodID){
@@ -127,7 +127,7 @@ Class ProductManagement{
 	
 	//Gets products based on catalogID
 	public function getProductsWithCatalogID($catalogID){
-		$newQuery = "SELECT * products ".
+		$newQuery = "SELECT * from products".
 		" WHERE fk_catalogID=".$catalogID;
 		
 		return $GLOBALS['dbObj']->dbQuery($newQuery);
@@ -135,8 +135,8 @@ Class ProductManagement{
 	
 	//Gets products based on product name
 	public function getProductsWithName($name){
-		$newQuery = "SELECT * products ".
-				" WHERE name LIKE %'".$name."%'";
+		$newQuery = "SELECT * from products ".
+				" WHERE name LIKE '%".$name."%'";
 		
 		return $GLOBALS['dbObj']->dbQuery($newQuery);
 	}
