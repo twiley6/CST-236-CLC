@@ -20,7 +20,6 @@ Registration page.-->
             width: 30%;
             border: 2px solid #cccccc;
         }
-
         label {
             width: 75px;
             float: left;
@@ -28,12 +27,10 @@ Registration page.-->
             font-weight: bold;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
-
         input {
             border: 1px solid #000;
             padding: 3px;
         }
-
         .navbar {
             background-color: #333;
             overflow: hidden;
@@ -41,7 +38,6 @@ Registration page.-->
             bottom: 0;
             width: 100%;
         }
-
         .navbar a {
             float: left;
             display: block;
@@ -51,17 +47,15 @@ Registration page.-->
             text-decoration: none;
             font-size: 17px;
         }
-
         .navbar a:hover {
             background-color: #ddd;
             color: black;
         }
-
         .navbar a.active {
             background-color: #4CAF50;
             color: white;
         }
-        
+
         .navbar a.right {
             float: right;
         }
@@ -74,9 +68,10 @@ Registration page.-->
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="adminPanel.html" class="right">Admin Panel</a>
-        <a href="catalog.html">Product Catalog</a>
-        <a href="login.php" class="active">Login</a>
+        <a href="cart.php" class="right"><img src="cart.ico"></a>
+        <a href="adminPanel.php" class="right">Admin Panel</a>
+        <a href="catalog.php">Product Catalog</a>
+        <a href="Login.php" class="active">Login</a>
     </div>
 </div>
 <form action = "registerHandler.php" method="post">
@@ -94,20 +89,20 @@ Registration page.-->
 
             <p><label><b>Password:</b></label>
                 <input type="text" id="Password" name="Password" required></p>
-                
-             <p><label><b>Address:</b></label>
-                <input type="text" id="Address" name="Address" required></p>  
-             <label for="selectRole">Select Role:</label>
-             <select id="selectRole" name="selectRole">
-				<?php 
-				include('customerManagement.php');
-				$rManagement = new roleManagement();
-				$result = $rManagement->getRoles();
-				while ($row = mysqli_fetch_array ($result)){
-				echo "<option value='".$row["role_id"]."'>".$row["role"]."</option>";
-				}
-				?>
-			</select>           
+
+            <p><label><b>Address:</b></label>
+                <input type="text" id="Address" name="Address" required></p>
+            <label for="selectRole">Select Role:</label>
+            <select id="selectRole" name="selectRole">
+                <?php
+                include('customerManagement.php');
+                $rManagement = new roleManagement();
+                $result = $rManagement->getRoles();
+                while ($row = mysqli_fetch_array ($result)){
+                    echo "<option value='".$row["role_id"]."'>".$row["role"]."</option>";
+                }
+                ?>
+            </select>
 
         </fieldset>
 
