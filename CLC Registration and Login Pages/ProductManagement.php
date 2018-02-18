@@ -65,7 +65,7 @@ Class ProductManagement{
 	
     //inserts a product
 	public function createProduct(Product $nProd){
-		$query = "INSERT INTO products(name, description, stock, price, fk_catalogID) values
+		$query = "INSERT INTO products(name, stock, price, fk_catalogID) values
               ('".$nProd->getName().
 			   "', ".$nProd->getStock()." , ".$nProd->getPrice().
 		       " , ".$nProd->getCatalogID().")";
