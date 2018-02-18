@@ -35,10 +35,8 @@ $(document).ready(function(){
         	setTimeout(function(){location.reload();}, 3000);
             });
     });
-});
 
 //Catalog Update function
-$(document).ready(function(){
     $("#UpdateCat").click(function(){
         $.post("catalogHandler.php",
         {
@@ -54,10 +52,8 @@ $(document).ready(function(){
         	setTimeout(function(){location.reload();}, 3000);
             });
     });
-});
 
 //Catalog Delete function
-$(document).ready(function(){
     $("#DeleteCat").click(function(){
         $.post("catalogHandler.php",
         {
@@ -71,10 +67,8 @@ $(document).ready(function(){
         	setTimeout(function(){location.reload();}, 3000);
             });
     });
-});
 
 //Product Create function
-$(document).ready(function(){
     $("#CreateProd").click(function(){
         $.post("ProductHandler.php",
         {
@@ -92,10 +86,8 @@ $(document).ready(function(){
         	setTimeout(function(){location.reload();}, 3000);
             });
     });
-});
 
 //Product Delete function
-$(document).ready(function(){
     $("#DeleteProd").click(function(){
         $.post("ProductHandler.php",
         {
@@ -110,10 +102,8 @@ $(document).ready(function(){
         	setTimeout(function(){location.reload();}, 3000);
             });
     });
-});
 
 //Update Product without old data
-$(document).ready(function(){
     $("#UpdateProd").click(function(){
         $.post("ProductHandler.php",
         {
@@ -137,7 +127,6 @@ $(document).ready(function(){
             });
     });
 });
-
 /*TODO: Product Update function with old data
 $(document).ready(function(){
     $("#UpdateProd").click(function(){
