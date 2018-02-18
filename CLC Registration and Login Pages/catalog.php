@@ -139,139 +139,24 @@ session_start();
                 <th>Quantity</th>
             </tr>
             <tr>
-                <td><input type="checkbox" id="prodID"</td>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQOH"></td>
-                <td><input type="text" id="prodPrice"></td>
-                <td>
-                    <select id="quantity">
-                        <option selected>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select>
-                </td>
+
+                <?php
+                $prodName = '';
+                $prodQOH = 0;
+                $prodPrice = 0.00;
+                echo '<td><input type="checkbox" id="prodID"</td>';
+                echo '<td><label id="prodID">'.$prodName.'</label></td>';
+                echo '<td><label id="prodQOH">'.$prodQOH.'</label></td>';
+                echo '<td><label id="prodPrice">'.$prodPrice.'</label></td>';
+                echo '<td><select id="quantity">';
+                echo '<option selected>1</option>';
+                for($x=2;$x<100;$x++){
+                    echo '<option>'.$x.'</option>';
+                }
+                echo '</select></td>';
+                ?>
             </tr>
-            <tr>
-                <td><input type="checkbox" id="prodID"</td>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQOH"></td>
-                <td><input type="text" id="prodPrice"></td>
-                <td>
-                    <select id="quantity">
-                        <option selected>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select>
-                </td>            </tr>
-            <tr>
-                <td><input type="checkbox" id="prodID"</td>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQOH"></td>
-                <td><input type="text" id="prodPrice"></td>
-                <td>
-                    <select id="quantity">
-                        <option selected>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select>
-                </td>            </tr>
-            <tr>
-                <td><input type="checkbox" id="prodID"</td>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQOH"></td>
-                <td><input type="text" id="prodPrice"></td>
-                <td>
-                    <select id="quantity">
-                        <option selected>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select>
-                </td>            </tr>
-            <tr>
-                <td><input type="checkbox" id="prodID"</td>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQOH"></td>
-                <td><input type="text" id="prodPrice"></td>
-                <td>
-                    <select id="quantity">
-                        <option selected>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select>
-                </td>            </tr>
-            <tr>
-                <td><input type="checkbox" id="prodID"</td>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQOH"></td>
-                <td><input type="text" id="prodPrice"></td>
-                <td>
-                    <select id="quantity">
-                        <option selected>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select>
-                </td>            </tr>
-            <tr>
-                <td><input type="checkbox" id="prodID"</td>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQOH"></td>
-                <td><input type="text" id="prodPrice"></td>
-                <td>
-                    <select id="quantity">
-                        <option selected>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select>
-                </td>            </tr>
+
         </table>
 
         <button type="button" id="addCart">Add Selected To Cart</button>
