@@ -10,7 +10,6 @@ Manages payment proccessing.
 
 require_once 'dbcon.php';
 $dbObj = new DBManagement();
-
 //Transaction class
 class transaction{
 	private $transaction_ID;
@@ -58,8 +57,7 @@ class transaction{
 		return $this->fk_UserName;
 	}
 }
-
-//Transaction Management class	
+//Transaction Management class
 class transactionManagement{
 		//Returns a transaction
 		public function getTransaction($transactionID){
@@ -212,6 +210,4 @@ class saleItemManagement{
 					return $GLOBALS['dbObj']->dbUpdate($oldQuery,$newQuery);
 		}
 	}
-	
-	
 ?>
