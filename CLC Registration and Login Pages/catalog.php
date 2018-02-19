@@ -9,13 +9,101 @@ Jan. 30, 2018
 include 'dbcon.php';
 include 'catalogManagement.php';
 include 'ProductManagement.php';
-session_start();
 ?>
 
 
 <!DOCTYPE html>
 <html>
 <head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+	//Counts # of products
+	var numOfProducts = 0;
+   $("#btnProdSearchByCatalog").click(function(){
+    	$.ajax({
+    		  type: "POST",
+    		  dataType: "json",
+    		  data: {catalogSearch : $("#catalogList").val()},
+    		  url: 'catalogDisplayHandler.php',
+    		  success: function(data) {
+        		//gets current ProductList tables and clears it out
+    			document.getElementById("ProductList").innerHTML="";
+    			numOfProducts = 0;
+        		//Adds new content to ProductList table
+        		$("#ProductList").append('<tr><th>Add</th><th>Name</th><th>QOH</th><th>Price</th><th>Quantity</th></tr>');
+    			for (numOfProducts; numOfProducts< data.length; numOfProducts++){
+    		    $("#ProductList").append('<tr><td><input type="checkbox" name ="chk['+numOfProducts+']" value="'+data[numOfProducts].prodID+'"></td>'+
+              	'<td><label>'+data[numOfProducts].name+'</label></td>'+
+               	'<td><label>'+data[numOfProducts].stock+'</label></td>'+
+               	'<td><input type="text" name="price['+numOfProducts+']" readonly value="'+data[numOfProducts].price+'"></input></td>'+
+               	'<td><input name ="qty['+numOfProducts+']" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"></input></td></tr>');
+    			}
+    		  },error: function (req, status, error) {
+                  alert("/nRequest: " + req + " /nStatus: " + status + " /nError: " + error);  
+              }
+    		},'json');
+    });
+
+    $("#btnProdSearchByName").click(function(){
+    	$.ajax({
+  		  type: "POST",
+  		  dataType: "json",
+  		  data: {ProdSearchName : $("#prodSearchByName").val()},
+  		  url: 'catalogDisplayHandler.php',
+  		  success: function(data) {
+      			//gets current ProductList tables and clears it out
+  				document.getElementById("ProductList").innerHTML="";
+  				numOfProducts = 0;
+  				//Adds new content to ProductList table
+  				$("#ProductList").append('<tr><th>Add</th><th>Name</th><th>QOH</th><th>Price</th><th>Quantity</th></tr>');
+      			for (numOfProducts; numOfProducts< data.length; numOfProducts++){
+        		    $("#ProductList").append('<tr><td><input type="checkbox" name ="chk['+numOfProducts+'] value="'+data[numOfProducts].prodID+'"></td>'+
+                  	'<td><label>'+data[numOfProducts].name+'</label></td>'+
+                   	'<td><label>'+data[numOfProducts].stock+'</label></td>'+
+                   	'<td><input type="text" name="price['+numOfProducts+']" readonly value="'+data[numOfProducts].price+'"></input></td>'+
+                   	'<td><input name ="qty['+numOfProducts+']" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"></input></td></tr>');
+        			}
+  	  		  },error: function (req, status, error) {
+                alert("/nRequest: " + req + " /nStatus: " + status + " /nError: " + error);  
+            }
+  		},'json');
+  });
+
+    $("#btnAddCart").click(function(){
+		for (var i=0; i<numOfProducts; i++){
+			//Checks each checkbox from loaded products to see if they are checked
+			if ($('input[name="chk['+i+']"]').is(':checked')){
+			if($("input[name='qty["+i+"]']").val() > 0){
+				//ajax call to paymentProcessing class to create sale item
+				alert($("input[name='chk["+i+"]']").val());
+				alert($("input[name='qty["+i+"]']").val());
+				alert($("input[name='price["+i+"]']").val());
+				 $.post("paymentProcessingHandler.php",
+					        {
+					          prodID: $("input[name='chk["+i+"]']").val(),
+					          qty: $("input[name='qty["+i+"]']").val(),
+					          price: $("input[name='price["+i+"]']").val() 
+					        },
+					        function(data){
+						        alert(data);
+					        	document.getElementById("createSaleItem").innerHTML = "item(s) have been added to your cart!";
+					            });
+			}else{
+				//Error handling for missing quantity
+				alert("please enter a quantity for all of your checked items");
+			}
+		}	
+	}		
+
+  });
+  
+});
+		
+</script>
+
     <meta charset="UTF-8">
     <title>Catalog</title>
     <style type="text/css">
@@ -47,7 +135,6 @@ session_start();
             text-align: center;
             font-weight: bold;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-
         }
         input {
             border: 1px solid #000;
@@ -77,7 +164,6 @@ session_start();
             background-color: #4CAF50;
             color: white;
         }
-
         .navbar a.right {
             float: right;
         }
@@ -124,13 +210,15 @@ session_start();
             }
             ?>
         </select>
+       
+		<input type='button' id="btnProdSearchByCatalog" value='Search by Product Name'>
         <h3>or search for a product here</h3>
-        <p><input type="search" id="prodSearch"></p>
-        <input type="submit" value="Search">
-
+        <p><input type="text" id="prodSearchByName"></input></p>
+        <input type="button" id="btnProdSearchByName" value='Search by Product Name'>
+        
         <!--shows the name, description, stock, and price of selected product. Blank temporarily-->
         <h4>Products</h4>
-        <table>
+        <table id ="ProductList">
             <tr>
                 <th>Add</th>
                 <th>Name</th>
@@ -138,30 +226,10 @@ session_start();
                 <th>Price</th>
                 <th>Quantity</th>
             </tr>
-            <tr>
-
-                <?php
-                $prodName = '';
-                $prodQOH = 0;
-                $prodPrice = 0.00;
-                echo '<td><input type="checkbox" id="prodID"</td>';
-                echo '<td><label id="prodID">'.$prodName.'</label></td>';
-                echo '<td><label id="prodQOH">'.$prodQOH.'</label></td>';
-                echo '<td><label id="prodPrice">'.$prodPrice.'</label></td>';
-                echo '<td><select id="quantity">';
-                echo '<option selected>1</option>';
-                for($x=2;$x<100;$x++){
-                    echo '<option>'.$x.'</option>';
-                }
-                echo '</select></td>';
-                ?>
-            </tr>
-
         </table>
-
-        <button type="button" id="addCart">Add Selected To Cart</button>
+        <button type="button" id="btnAddCart">Add Selected To Cart</button>
         <p id="addCart"></p>
-
+		<p id="createSaleItem"></p>
     </fieldset>
     </form>
 </center>
