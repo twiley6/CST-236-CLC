@@ -1,13 +1,13 @@
-<!--CST-236 CLC-Registration and Login Pages
+<?php
+/*CST-236 CLC-Registration and Login Pages
 Tim Wiley
 Gary Sundquist
 Justin Hamman
 Robert Nichols
 Feb. 6, 2018
 Manages payment proccessing.
--->
+*/
 
-<?php
 require_once 'dbcon.php';
 $dbObj = new DBManagement();
 
