@@ -23,7 +23,7 @@ session_start();
 //Catalog Create function
 $(document).ready(function(){
     $("#CreateCat").click(function(){
-        $.post("catalogHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/catalogHandler.php",
         {
           catalogNameCeate: $("#catalogName").val()
         },
@@ -37,7 +37,7 @@ $(document).ready(function(){
 
 //Catalog Update function
     $("#UpdateCat").click(function(){
-        $.post("catalogHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/catalogHandler.php",
         {
           catalogNameUpdate: $("#catalogName").val(),
           catalogIDUpdate: $("#catalogList").val(),
@@ -54,7 +54,7 @@ $(document).ready(function(){
 
 //Catalog Delete function
     $("#DeleteCat").click(function(){
-        $.post("catalogHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/catalogHandler.php",
         {
         	catalogDeleteID: $("#catalogList").val()
         },
@@ -69,7 +69,7 @@ $(document).ready(function(){
 
 //Product Create function
     $("#CreateProd").click(function(){
-        $.post("ProductHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/ProductHandler.php",
         {
           ProdNameCeate: $("#prodName").val(),
           ProdDescripCreate: $("#prodDescription").val(),
@@ -88,7 +88,7 @@ $(document).ready(function(){
 
 //Product Delete function
     $("#DeleteProd").click(function(){
-        $.post("ProductHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/ProductHandler.php",
         {
         	productDeleteID: $("#productList").val()
         },
@@ -104,7 +104,7 @@ $(document).ready(function(){
 
 //Update Product without old data
     $("#UpdateProd").click(function(){
-        $.post("ProductHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/ProductHandler.php",
         {
           ProdID: $("#productList").val(),
           ProdNameUpdate: $("#prodName").val(),

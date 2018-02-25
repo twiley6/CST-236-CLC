@@ -27,7 +27,7 @@ $(document).ready(function(){
     		  type: "POST",
     		  dataType: "json",
     		  data: {catalogSearch : $("#catalogList").val()},
-    		  url: 'catalogDisplayHandler.php',
+    		  url: '/CLC Registration and Login Pages/Handlers/CatalogDisplayHandler.php',
     		  success: function(data) {
         		//gets current ProductList tables and clears it out
     			document.getElementById("ProductList").innerHTML="";
@@ -52,7 +52,7 @@ $(document).ready(function(){
   		  type: "POST",
   		  dataType: "json",
   		  data: {ProdSearchName : $("#prodSearchByName").val()},
-  		  url: 'catalogDisplayHandler.php',
+  		  url: '/CLC Registration and Login Pages/Handlers/catalogDisplayHandler.php',
   		  success: function(data) {
       			//gets current ProductList tables and clears it out
   				document.getElementById("ProductList").innerHTML="";

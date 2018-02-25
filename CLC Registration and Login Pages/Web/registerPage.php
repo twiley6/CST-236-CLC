@@ -80,7 +80,7 @@ Registration page.-->
         <a href="login.php" class="active">Login</a>
     </div>
 </div>
-<form action = "registerHandler.php" method="post">
+<form action = "/CLC Registration and Login Pages/Handlers/registerHandler.php" method="post">
     <center><h1>Registration Page</h1>
         <h2>Create Your New Account By Filling Out The Information Below</h2>
 
