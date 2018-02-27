@@ -1,5 +1,5 @@
 <?php
-include('ProductManagement.php');
+include($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/ProductManagement.php');
 header('Content-Type: application/json');
 //Checks if we are receiving a post
 

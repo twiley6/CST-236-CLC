@@ -7,9 +7,8 @@ Feb. 2, 2018
 Admin panel that manages products and catalogs.
 -->
 <?php
-include('catalogManagement.php');
-include('ProductManagement.php');
-//include('catalogHandler.php');
+include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/catalogManagement.php');
+include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/ProductManagement.php');
 session_start();
 ?>
 
@@ -24,7 +23,7 @@ session_start();
 //Catalog Create function
 $(document).ready(function(){
     $("#CreateCat").click(function(){
-        $.post("catalogHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/catalogHandler.php",
         {
           catalogNameCeate: $("#catalogName").val()
         },
@@ -38,7 +37,7 @@ $(document).ready(function(){
 
 //Catalog Update function
     $("#UpdateCat").click(function(){
-        $.post("catalogHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/catalogHandler.php",
         {
           catalogNameUpdate: $("#catalogName").val(),
           catalogIDUpdate: $("#catalogList").val(),
@@ -55,7 +54,7 @@ $(document).ready(function(){
 
 //Catalog Delete function
     $("#DeleteCat").click(function(){
-        $.post("catalogHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/catalogHandler.php",
         {
         	catalogDeleteID: $("#catalogList").val()
         },
@@ -70,7 +69,7 @@ $(document).ready(function(){
 
 //Product Create function
     $("#CreateProd").click(function(){
-        $.post("ProductHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/ProductHandler.php",
         {
           ProdNameCeate: $("#prodName").val(),
           ProdDescripCreate: $("#prodDescription").val(),
@@ -89,7 +88,7 @@ $(document).ready(function(){
 
 //Product Delete function
     $("#DeleteProd").click(function(){
-        $.post("ProductHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/ProductHandler.php",
         {
         	productDeleteID: $("#productList").val()
         },
@@ -105,7 +104,7 @@ $(document).ready(function(){
 
 //Update Product without old data
     $("#UpdateProd").click(function(){
-        $.post("ProductHandler.php",
+        $.post("/CLC Registration and Login Pages/Handlers/ProductHandler.php",
         {
           ProdID: $("#productList").val(),
           ProdNameUpdate: $("#prodName").val(),
@@ -249,8 +248,9 @@ $(document).ready(function(){
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
+        <a href="cart.php" class="right"><img src="../cart.ico"></a>
         <a href="adminPanel.php" class="right">Admin Panel</a>
-        <a href="catalog.html">Product Catalog</a>
+        <a href="catalog.php">Product Catalog</a>
         <a href="login.php" class="active">Login</a>
     </div>
 </div>

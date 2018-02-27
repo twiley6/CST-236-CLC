@@ -1,5 +1,5 @@
 <?php
-include('PaymentProcessing.php');
+include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/PaymentProcessing.php');
 if(isset($_POST)){
 	//Pulls products based on their catalogID
 	if (isset($_POST['prodID']) && isset($_POST['qty']) && isset($_POST['price'])){

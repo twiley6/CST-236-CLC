@@ -8,7 +8,7 @@ Manages customers.
 -->
 
 <?php
-require_once 'dbcon.php';
+require_once ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/dbcon.php');
 $dbObj = new DBManagement();
 
 //Customer class

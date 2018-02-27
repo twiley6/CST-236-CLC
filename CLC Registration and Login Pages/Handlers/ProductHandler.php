@@ -1,7 +1,9 @@
 <?php
-include('ProductManagement.php');
+include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/ProductManagement.php');
+
 //Checks if we are receiving a post
-if(isset($_POST)){	
+if(isset($_POST)){
+	
 	//Product create handler
 	if (isset($_POST['ProdNameCeate']) &&
 			isset($_POST['ProdQOHCreate']) && isset($_POST['PRODPriceCreate']) &&
@@ -76,4 +78,5 @@ if(isset($_POST)){
 			echo json_encode($arr);
 		}
 }	
+}
 ?>

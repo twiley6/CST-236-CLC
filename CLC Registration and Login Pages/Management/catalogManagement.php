@@ -7,7 +7,7 @@ Jan. 27, 2018
 Manages catalog table.
 -->
 <?php
-require_once 'dbcon.php';
+require_once ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/dbcon.php');
 
 $dbObj = new DBManagement();
 

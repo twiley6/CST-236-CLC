@@ -1,7 +1,7 @@
 <?php
 //include('catalog.php');
-include('catalogManagement.php');
-include('ProductManagement.php');
+include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/catalogManagement.php');
+include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/ProductManagement.php');
 //include('catalogHandler.php');
 session_start();
 ?>
@@ -19,7 +19,6 @@ session_start();
         font-weight: bold;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         width: 30%;
-
     }
     fieldset {
         width: 50%;
@@ -87,7 +86,6 @@ session_start();
         text-align: center;
         padding: 8px;
     }
-
     tr:nth-child(even) {
         background-color: #dddddd;
     }
@@ -100,7 +98,7 @@ session_start();
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="cart.php" class="activeright"><img src="cart.ico"></a>
+        <a href="cart.php" class="activeright"><img src="../cart.ico"></a>
         <a href="adminPanel.php" class="right">Admin Panel</a>
         <a href="catalog.php">Product Catalog</a>
         <a href="Login.php">Login</a>
@@ -108,7 +106,7 @@ session_start();
 </div>
 <center>
     <fieldset>
-        <h4>Your Shopping Cart</h4>
+        <h1>Your Shopping Cart</h1>
 
         <table>
             <tr>
@@ -117,26 +115,35 @@ session_start();
                 <th>Price</th>
             </tr>
             <tr>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQuantity"></td>
-                <td><input type="text" id="prodPrice"></td>
+                <?php
+                $prodName = '';
+                $selectedQuantity = 0;
+                $pricePerLine = 0.00;
+                echo '<td><label id="prodID">'.$prodName.'</label></td>';
+                echo '<td><label id="selectedQuantity">'.$selectedQuantity.'</label></td>';
+                echo '<td><label id="pricePerLine">'.$pricePerLine.'</label></td>';
+                ?>
+            </tr>
+        </table><br>
+        <table style="width: 35%">
+            <tr>
+                <th>Tax</th>
             </tr>
             <tr>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQuantity"></td>
-                <td><input type="text" id="prodPrice"></td>
+                <?php
+                $tax = 0.00;
+                echo '<td><label id="tax">'.$tax.'</label></td>';
+                ?>
             </tr>
             <tr>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQuantity"></td>
-                <td><input type="text" id="prodPrice"></td>
+                <th>Total</th>
             </tr>
             <tr>
-                <td><input type="text" id="prodName"></td>
-                <td><input type="text" id="prodQuantity"></td>
-                <td><input type="text" id="prodPrice"></td>
+                <?php
+                $totalPrice = 0.00;
+                echo '<td><b><label id="totalPrice">'.$totalPrice.'</label></b></td>';
+                ?>
             </tr>
-
         </table>
         <button type="button" id="Checkout">Proceed to Checkout</button>
         <p id="Checkout"></p>

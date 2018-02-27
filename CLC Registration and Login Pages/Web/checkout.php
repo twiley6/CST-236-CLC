@@ -1,23 +1,26 @@
-<!--CST-236 CLC-Registration and Login Pages
-Tim Wiley
-Gary Sundquist
-Justin Hamman
-Robert Nichols
-Jan. 27, 2018
-Registration page.-->
+<?php
+include ('cart.php');
+include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/dbcon.php');
 
-
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Checkout</title>
     <style type="text/css">
         body {
             background-color: beige;
         }
-        fieldset {
+        select {
+            text-align: center;
+            font-weight: bold;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             width: 30%;
+        }
+        fieldset {
+            width: 50%;
             border: 2px solid #cccccc;
         }
         label {
@@ -26,6 +29,15 @@ Registration page.-->
             text-align: center;
             font-weight: bold;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 25%;
         }
         input {
             border: 1px solid #000;
@@ -55,9 +67,26 @@ Registration page.-->
             background-color: #4CAF50;
             color: white;
         }
-
         .navbar a.right {
             float: right;
+        }
+        .navbar a.activeright {
+            float: right;
+            background-color: #4CAF50;
+            color: white;
+        }
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
         }
     </style>
 </head>
@@ -68,37 +97,9 @@ Registration page.-->
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="cart.php" class="right"><img src="cart.ico"></a>
+        <a href="cart.php" class="activeright"><img src="../cart.ico"></a>
         <a href="adminPanel.php" class="right">Admin Panel</a>
         <a href="catalog.php">Product Catalog</a>
-        <a href="Login.php" class="active">Login</a>
+        <a href="Login.php">Login</a>
     </div>
 </div>
-<form action = "registerHandler.php" method="post">
-    <center><h1>Registration Page</h1>
-        <h2>Create Your New Account By Filling Out The Information Below</h2>
-
-        <fieldset>
-
-            <p><label><b>Name</b></label>
-                <input type="text" id="Name" name="Name" required></p>
-
-            <p><label><b>Username</b></label>
-                <input type="text" id="Username" name="Username" required></p>
-            <!--cannot be duplicate of another user-->
-
-            <p><label><b>Password</b></label>
-                <input type="password" id="Enter Password" name="Password" required></p>
-
-        </fieldset>
-
-        <h4>Once Complete, Click the Button Below</h4>
-
-        <td colspan = "2"><input type="submit" value="Submit" /></td>
-    </center>
-</form>
-</body>
-<body>
-
-</body>
-</html>

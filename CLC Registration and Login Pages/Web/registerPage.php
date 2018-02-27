@@ -68,13 +68,13 @@ Registration page.-->
     </div>
     <div class="navbar">
         <a href="home.html">Home</a>
-        <a href="cart.php" class="right"><img src="cart.ico"></a>
         <a href="adminPanel.php" class="right">Admin Panel</a>
+        <a href="cart.php" class="right"><img src="../cart.ico"></a>
         <a href="catalog.php">Product Catalog</a>
-        <a href="Login.php" class="active">Login</a>
+        <a href="login.php" class="active">Login</a>
     </div>
 </div>
-<form action = "registerHandler.php" method="post">
+<form action = "/CLC Registration and Login Pages/Handlers/registerHandler.php" method="post">
     <center><h1>Registration Page</h1>
         <h2>Create Your New Account By Filling Out The Information Below</h2>
 
@@ -88,14 +88,14 @@ Registration page.-->
             <!--cannot be duplicate of another user-->
 
             <p><label><b>Password:</b></label>
-                <input type="text" id="Password" name="Password" required></p>
+                <input type="password" id="Password" name="Password" required></p>
 
             <p><label><b>Address:</b></label>
                 <input type="text" id="Address" name="Address" required></p>
             <label for="selectRole">Select Role:</label>
             <select id="selectRole" name="selectRole">
                 <?php
-                include('customerManagement.php');
+                include('Management\customerManagement.php');
                 $rManagement = new roleManagement();
                 $result = $rManagement->getRoles();
                 while ($row = mysqli_fetch_array ($result)){
