@@ -72,18 +72,19 @@ Stores the information from the registration page into the database.-->
         <h1>TeamB Bloggers</h1>
     </div>
     <div class="navbar">
-        <a href="home.html">Home</a>
-        <a href="adminPanel.php" class="right">Admin Panel</a>
-        <a href="createnew.html">New Blog</a>
-        <a href="login.php">Login</a>
+        <a href="../web/home.html">Home</a>
+        <a href="../web/cart.php" class="right"><img src="../cart.ico"></a>
+        <a href="../web/adminPanel.php" class="right">Admin Panel</a>
+        <a href="../web/catalog.php">Product Catalog</a>
+        <a href="../web/login.php">Login</a>
     </div>
 </div>
 <center>
     <h1>New User Registration Confirmation</h1>
 
     <?php
-    include('dbcon.php');
-    include('customerManagement.php');
+    include($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/dbcon.php');
+    include($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/customerManagement.php');
     
     if (!isset($_POST['Name']) || !isset($_POST['Username'])|| 
     	!isset($_POST['Password']) || !isset($_POST['Address']) || !isset($_POST['selectRole'])){

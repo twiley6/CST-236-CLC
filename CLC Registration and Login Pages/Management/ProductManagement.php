@@ -62,7 +62,11 @@ Class Product{
 
 //Product methods
 Class ProductManagement{
-	
+	//Returns product Name
+	public function getProductName($productID){
+		$query = "SELECT name from products where productID=".$productID;
+		return $GLOBALS['dbObj']->dbQuery($query);
+	}
     //inserts a product
 	public function createProduct(Product $nProd){
 		$query = "INSERT INTO products(name, stock, price, fk_catalogID) values

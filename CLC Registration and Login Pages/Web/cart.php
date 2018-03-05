@@ -2,7 +2,7 @@
 //include('catalog.php');
 include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/catalogManagement.php');
 include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/ProductManagement.php');
-//include('catalogHandler.php');
+include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/PaymentProcessing.php');
 session_start();
 ?>
 <!DOCTYPE html>
@@ -90,6 +90,28 @@ session_start();
         background-color: #dddddd;
     }
 </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+//Processing transaction, adds transaction ID to each of the sale items, says transaction completed
+$("#Checkout").click(function(){
+	
+	 $.post("/CLC Registration and Login Pages/Handlers/PaymentProcessingHandler.php",
+		        {
+	  	 userName: "<?php echo $_SESSION["valid_user"]?>",
+	  	 saleAmount:   $("#priceTotal").text(),
+	  	 taxAmount:  $("#taxTotal").text()
+		        },
+		        function(data){
+		        	//displays transaction completed when record is created
+		    		document.getElementById("checkOutText").innerHTML = "Transaction completed";
+		            });
+});
+
+});
+</script>
+
 </head>
 <body>
 <div class="header">
@@ -112,18 +134,33 @@ session_start();
             <tr>
                 <th>Name</th>
                 <th>Quantity</th>
-                <th>Price</th>
+                <th>Price Each</th>
+                <th>SubTotal</th>
+                <th>Tax</th>
+                <th>Total</th>
             </tr>
-            <tr>
+            	<!-- loads up all sale items for currently logged in user-->
                 <?php
-                $prodName = '';
-                $selectedQuantity = 0;
-                $pricePerLine = 0.00;
-                echo '<td><label id="prodID">'.$prodName.'</label></td>';
-                echo '<td><label id="selectedQuantity">'.$selectedQuantity.'</label></td>';
-                echo '<td><label id="pricePerLine">'.$pricePerLine.'</label></td>';
+                $tax = 0;
+                $totalPrice = 0;
+                $sManagement = new saleItemManagement();
+                $result = $sManagement->getSaleItemsForUser($_SESSION['valid_user']);
+                while ($row = mysqli_fetch_array ($result)){
+                	echo '<tr>';
+                	$pManagement = new ProductManagement();
+                	$pName = mysqli_fetch_assoc($pManagement->getProductName($row["fk_productID"]));
+                	$tax +=$row["tax_amount"];
+                	$total =$row["total_price"]+$row["tax_amount"];
+                	$totalPrice += $total;
+                	echo '<td><label id="prodID">'.$pName["name"].'</label></td>';
+                	echo '<td><label id="selectedQuantity">'.$row["qty_sold"].'</label></td>';
+                	echo '<td><label id="priceEach">'.$row["price_per_unit"].'</label></td>';
+                	echo '<td><label id="pricePerLine">$'.$row["total_price"].'</label></td>';
+                	echo '<td><label id="tax">$'.$row["tax_amount"].'</label></td>';
+                	echo '<td><label id="tax">$'.$total.'</label></td>';
+                	echo '</tr>';
+                }
                 ?>
-            </tr>
         </table><br>
         <table style="width: 35%">
             <tr>
@@ -131,8 +168,7 @@ session_start();
             </tr>
             <tr>
                 <?php
-                $tax = 0.00;
-                echo '<td><label id="tax">'.$tax.'</label></td>';
+                echo '<td><label id="taxTotal">'.$tax.'</label></td>';
                 ?>
             </tr>
             <tr>
@@ -140,13 +176,12 @@ session_start();
             </tr>
             <tr>
                 <?php
-                $totalPrice = 0.00;
-                echo '<td><b><label id="totalPrice">'.$totalPrice.'</label></b></td>';
+                echo '<td><b><label id="priceTotal">'.$totalPrice.'</label></b></td>';
                 ?>
             </tr>
         </table>
         <button type="button" id="Checkout">Proceed to Checkout</button>
-        <p id="Checkout"></p>
+        <p id="checkOutText"></p>
     </fieldset>
 </center>
 </body>
