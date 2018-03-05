@@ -35,7 +35,7 @@ class transaction{
 		return $this->date_Time;
 	}
 	
-	function setSale_Amount(){
+	function setSale_Amount($sale_Amount){
 		$this->sale_Amount = $sale_Amount;
 	}
 	function getSale_Amount(){
@@ -60,7 +60,19 @@ class transaction{
 }
 
 //Transaction Management class	
-class transactionManagement{
+class transactionManagement{	
+		//Get transaction with username
+		public function getTransactionWithUserName($userName){
+			$query = "Select transaction_id from transactions where fk_userName= '".$userName
+			."'";
+			return $GLOBALS['dbObj']->dbQuery($query);	
+		}		
+		//Gets last transaction with username
+		public function getLastTransactionForUser($userName){
+			$query = "SELECT MAX(transaction_id) from transactions where fk_userName='".$userName
+			."'";
+			return $GLOBALS['dbObj']->dbQuery($query);
+		}
 		//Returns a transaction
 		public function getTransaction($transactionID){
 			$query = "Select * from transactions where transaction_id = " . $transactionID;
@@ -73,10 +85,10 @@ class transactionManagement{
 		}
 		//Creates a transaction
 		public function createTransaction(transaction $nTransaction){
-			$query ="Insert INTO transactions(date_time,sale_amount,tax_amount,fk_userID)".
-			 " VALUES(".$nTransaction->getDate_Time().
-			",".$nTransaction->getSale_Amount().",".$nTransaction->getTax_Amount().",". $nTransaction->getFk_UserName().
-			")";
+			$query ="Insert INTO transactions(date_time,sale_amount,tax_amount,fk_userName)".
+			" VALUES(NOW()".
+			",".$nTransaction->getSale_Amount().",".$nTransaction->getTax_Amount().",'". $nTransaction->getFk_UserName().
+			"')";
 			return $GLOBALS['dbObj']->dbQuery($query);
 		}
 		//Deletes a transaction
@@ -106,8 +118,15 @@ class saleItem{
 		private $taxAmount;
 		private $fkTransactionID;
 		private $fkProductID;
+		private $fk_saleUserName;
 				
 		//getters and setters
+		function setFk_saleUserName($fk_saleUserName){
+			$this->fk_saleUserName=$fk_saleUserName;
+		}
+		function getFk_saleUserName(){
+			return $this->fk_saleUserName;
+		}
 		function setSaleID($saleID){
 			$this->saleID=$saleID;
 		}
@@ -154,6 +173,20 @@ class saleItem{
 	}
 	
 class saleItemManagement{
+		//Returns open sale items for user
+		public function getSaleItemsForUser($userName){
+			$query = "Select * from sale_item where fk_saleUserName = '".
+			$userName."' AND fk_transaction_id IS NULL";
+			return $GLOBALS['dbObj']->dbQuery($query);
+		}
+		
+		//Returns all sale items for a user without a transaction ID
+		public function getSaleItemsForUserWithoutTransactionID($userName){
+			$query = "Select * from sale_item where fk_saleUserName = '".
+			$userName."' AND fk_transaction_id IS NULL";
+			return $GLOBALS['dbObj']->dbQuery($query);
+		}
+	
 		//Returns a sale item
 		public function getSaleItem($saleID){
 			$query = "Select * from sale_item where sale_id = " . $saleID;
@@ -172,16 +205,16 @@ class saleItemManagement{
 		}
 		//Creates a sale item
 		public function createSaleItem(saleItem $nSaleItem){
-			$query ="Insert INTO sale_item(qty_sold,price_per_unit,total_price,tax_amount,fk_productID) 
+			$query ="Insert INTO sale_item(qty_sold,price_per_unit,total_price,tax_amount,fk_productID,fk_saleUserName) 
 			VALUES(".$nSaleItem->getQtySold().",".$nSaleItem->getPricePerUnit().",".$nSaleItem->getTotalPrice().",".
-			$nSaleItem->getTaxAmount().",".$nSaleItem->getFkProductID()
-			.")";
+			$nSaleItem->getTaxAmount().",".$nSaleItem->getFkProductID().",'".
+			$nSaleItem->getFk_saleUserName()."')";
 			return $GLOBALS['dbObj']->dbQuery($query);
 		}
 		
 		//Adds transactionID to sale item
 		public function setSaleItemTransactionID($transactionID, $saleID){
-			$newQuery = "Update sale_item SET fk_transaction_id=".$transactionID.
+			$query = "Update sale_item SET fk_transaction_id=".$transactionID.
 					" Where sale_id=".$saleID;
 			return $GLOBALS['dbObj']->dbQuery($query);
 		}
@@ -202,12 +235,13 @@ class saleItemManagement{
 			$oldQuery = "Select * from sale_item Where sale_id = ".$oSaleItem->getSaleID()
 			." AND qty_sold=".$oSaleItem->getQtySold()." AND price_per_unit=".$oSaleItem->getPricePerUnit().
 			" AND total_price=".$oSaleItem->getTotalPrice()." AND tax_amount=".$oSaleItem->getTaxAmount().
-			" AND fk_transaction_id=".$oSaleItem->getFkTransactionID()." AND fk_productID=".$oSaleItem->getFkProductID();
+			" AND fk_transaction_id=".$oSaleItem->getFkTransactionID()." AND fk_productID=".$oSaleItem->getFkProductID().
+			" AND fk_saleUserName=".$oSaleItem->getFk_saleUserName();
 			
 			$newQuery = "Update sale_item SET qty_sold=".$nSaleItem->getQtySold().", price_per_unit='".
 					$nSaleItem->getPricePerUnit()."', total_price=".$nSaleItem->getTotalPrice().", tax_amount=". $nSaleItem->getTaxAmount().
 					", fk_transaction_id=".$nSaleItem->getFkTransactionID().", fk_productionID=".$nSaleItem->getFkProductID().
-					"' Where sale_id=".$oSaleItem->getSaleID();
+					", fk_saleUserName=".$nSaleItem->getFk_saleUserName()."' Where sale_id=".$oSaleItem->getSaleID();
 			
 					return $GLOBALS['dbObj']->dbUpdate($oldQuery,$newQuery);
 		}
