@@ -179,6 +179,7 @@ $(document).ready(function(){
         }
         tr:nth-child(even) {
             background-color: #dddddd;
+        
         }
     </style>
 </head>
@@ -230,6 +231,7 @@ $(document).ready(function(){
         <button type="button" id="btnAddCart">Add Selected To Cart</button>
         <p id="addCart"></p>
 		<p id="createSaleItem"></p>
+		
     </fieldset>
     </form>
 </center>
