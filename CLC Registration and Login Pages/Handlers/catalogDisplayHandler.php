@@ -7,7 +7,7 @@ if(isset($_POST)){
 	
 	//Pulls products based on their catalogID
 	if (isset($_POST['catalogSearch'])){
-		$pManagement = new ProductManagement();
+				$pManagement = new ProductManagement();
 				$i = 0;
 				$qResult = $pManagement->getProductsWithCatalogID($_POST['catalogSearch']);
 				while ($row = mysqli_fetch_array ($qResult)){
