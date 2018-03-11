@@ -21,7 +21,13 @@ session_start();
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-
+	
+	<?php 
+	if(!$_SESSION['valid_user']){
+		$_SESSION['valid_user'] = "";
+	}
+	?>
+	
 	//Counts # of products
 	var numOfProducts = 0;
    $("#btnProdSearchByCatalog").click(function(){
@@ -35,13 +41,21 @@ $(document).ready(function(){
     			document.getElementById("ProductList").innerHTML="";
     			numOfProducts = 0;
         		//Adds new content to ProductList table
-        		$("#ProductList").append('<tr><th>Add</th><th>Name</th><th>QOH</th><th>Price</th><th>Quantity</th></tr>');
+        		/*$("#ProductList").append('<tr><th>Add</th><th>Name</th><th>QOH</th><th>Price</th><th>Quantity</th></tr>');
     			for (numOfProducts; numOfProducts< data.length; numOfProducts++){
     		    $("#ProductList").append('<tr><td><input type="checkbox" name ="chk['+numOfProducts+']" value="'+data[numOfProducts].prodID+'"></td>'+
               	'<td><label>'+data[numOfProducts].name+'</label></td>'+
                	'<td><label>'+data[numOfProducts].stock+'</label></td>'+
                	'<td><input type="text" name="price['+numOfProducts+']" readonly value="'+data[numOfProducts].price+'"></input></td>'+
-               	'<td><input name ="qty['+numOfProducts+']" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"></input></td></tr>');
+               	'<td><input name ="qty['+numOfProducts+']" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"></input></td></tr>');*/
+               	$("#ProductList").append('<tr><th>Add</th><th>Name</th><th>QOH</th><th>Price</th><th>Quantity</th><th>Reviews</th></tr>');
+               	for (numOfProducts; numOfProducts< data.length; numOfProducts++){
+               	    $("#ProductList").append('<tr><td><input type="checkbox" name ="chk['+numOfProducts+']" value="'+data[numOfProducts].prodID+'"></td>'+
+               	        '<td><label>'+data[numOfProducts].name+'</label></td>'+
+               	        '<td><label>'+data[numOfProducts].stock+'</label></td>'+
+               	        '<td><input type="text" name="price['+numOfProducts+']" readonly value="'+data[numOfProducts].price+'"></input></td>'+
+               	        '<td><input name ="qty['+numOfProducts+']" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"></input></td>'+
+               	        '<td><button class="link" style="width: auto;" id="comments"'+data[numOfProducts].prodID+'>View Comments</button></td></tr>');
     			}
     		  },error: function (req, status, error) {
                   alert("/nRequest: " + req + " /nStatus: " + status + " /nError: " + error);  
@@ -180,8 +194,12 @@ $(document).ready(function(){
         }
         tr:nth-child(even) {
             background-color: #dddddd;
-        
         }
+        
+        #Comments{
+        	visibility: hidden;
+        }
+        
     </style>
 </head>
 <body>
@@ -199,7 +217,7 @@ $(document).ready(function(){
 </div>
 	<div style="float: left; width: auto;">
     	<form>
-    		<fieldset>
+    		<fieldset style="width: 800px">
         		<h1>Purple Team Shoes</h1>
         		<h3>Select the catalog you'd like to view</h3>
         		<select id="catalogList" name="catalogList" onchange="">
@@ -225,6 +243,7 @@ $(document).ready(function(){
                 	<th>QOH</th>
                 	<th>Price</th>
                 	<th>Quantity</th>
+                	<th>Reviews</th>
            	   </tr>
         	</table>
         	<button type="button" id="btnAddCart">Add Selected To Cart</button>
@@ -276,6 +295,14 @@ $(document).ready(function(){
 			?>
 		</fieldset>
 	</div>
+	
+	<table id="Comments">
+    <tr>
+        <th>Product Name</th>
+        <th>Rating</th>
+        <th>Comment</th>
+    </tr>
+	</table>
 	
 </body>
 </html>
