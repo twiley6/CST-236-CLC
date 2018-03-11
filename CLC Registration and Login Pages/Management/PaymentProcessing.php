@@ -173,6 +173,15 @@ class saleItem{
 	}
 	
 class saleItemManagement{
+		/*returns the last sale item for a customer and the product id of 
+		the purchase */
+		public function getLastSaleItemAndProductID($userName){
+			$query = "SELECT MAX(sale_id), fk_productID ".
+					  "FROM sale_item ".
+					  "WHERE fk_saleUserName = '".$userName."'";
+			return $GLOBALS['dbObj']->dbQuery($query);
+			
+		}
 		//Returns open sale items for user
 		public function getSaleItemsForUser($userName){
 			$query = "Select * from sale_item where fk_saleUserName = '".
