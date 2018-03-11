@@ -9,6 +9,7 @@ Jan. 30, 2018
 include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/dbcon.php');
 include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/catalogManagement.php');
 include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/ProductManagement.php');
+include ($_SERVER['DOCUMENT_ROOT'].'/CLC Registration and Login Pages/Management/PaymentProcessing.php');
 session_start();
 ?>
 
@@ -196,45 +197,85 @@ $(document).ready(function(){
         <a href="Login.php">Login</a>
     </div>
 </div>
-
-<center>
-    <form>
-    <fieldset>
-        <h1>Purple Team Shoes</h1>
-        <h3>Select the catalog you'd like to view</h3>
-        <select id="catalogList" name="catalogList" onchange="">
-            <?php
-            $cManagement = new catalogManagement();
-            $result = $cManagement->getCatalogs();
-            while ($row = mysqli_fetch_array ($result)){
-                echo "<option value='".$row["catalogID"]."'>".$row["name"]."</option>";
-            }
-            ?>
-        </select>
-       
-		<input type='button' id="btnProdSearchByCatalog" value='Search by Product Name'>
-        <h3>or search for a product here</h3>
-        <p><input type="text" id="prodSearchByName"></input></p>
-        <input type="button" id="btnProdSearchByName" value='Search by Product Name'>
+	<div style="float: left; width: auto;">
+    	<form>
+    		<fieldset>
+        		<h1>Purple Team Shoes</h1>
+        		<h3>Select the catalog you'd like to view</h3>
+        		<select id="catalogList" name="catalogList" onchange="">
+            	<?php
+            	$cManagement = new catalogManagement();
+            	$result = $cManagement->getCatalogs();
+            	while ($row = mysqli_fetch_array ($result)){
+                	echo "<option value='".$row["catalogID"]."'>".$row["name"]."</option>";
+            	}
+           		 ?>
+        		</select>
+			<input type='button' id="btnProdSearchByCatalog" value='Search by Product Name'>
+        	<h3>or search for a product here</h3>
+        	<p><input type="text" id="prodSearchByName"></input></p>
+        	<input type="button" id="btnProdSearchByName" value='Search by Product Name'>
         
         <!--shows the name, description, stock, and price of selected product. Blank temporarily-->
-        <h4>Products</h4>
-        <table id ="ProductList">
-            <tr>
-                <th>Add</th>
-                <th>Name</th>
-                <th>QOH</th>
-                <th>Price</th>
-                <th>Quantity</th>
-            </tr>
-        </table>
-        <button type="button" id="btnAddCart">Add Selected To Cart</button>
-        <p id="addCart"></p>
-		<p id="createSaleItem"></p>
-		
-    </fieldset>
-    </form>
-</center>
-
+        	<h4>Products</h4>
+        	<table id ="ProductList">
+            	<tr>
+                	<th>Add</th>
+                	<th>Name</th>
+                	<th>QOH</th>
+                	<th>Price</th>
+                	<th>Quantity</th>
+           	   </tr>
+        	</table>
+        	<button type="button" id="btnAddCart">Add Selected To Cart</button>
+        	<p id="addCart"></p>
+			<p id="createSaleItem"></p>
+    		</fieldset>
+    	</form>
+    </div>
+    
+    <div style="float: right; width: auto;">
+		<fieldset>
+			<!--  looks up the last item the user purchased and shows an image related to it -->
+			<?php 
+				$saleItemManagement = new saleItemManagement();
+			 	$Result = $saleItemManagement->getLastSaleItemAndProductID($_SESSION['valid_user']);
+			 	$value = mysqli_fetch_object($Result);
+			 	echo '<p>Here is something you may be interested in:</p></br>';
+			 	switch($value->fk_productID){
+			 		
+			 		case 1:
+			 		case 3:
+			 			echo '<img src="../Ad_Images/Shoe1.jpeg" height="250" width="250"/>';
+			 			break;
+			 		
+			 		case 4:
+			 		case 5:
+			 			echo '<img src="../Ad_Images/Shoe2.jpeg" height="250" width="250"/>';
+			 			break;
+			 		
+			 		case 6:
+			 		case 7:
+			 		case 8:
+			 			echo '<img src="../Ad_Images/Shoe3.jpeg" height="250" width="250"/>';
+			 			break;
+			 		
+			 		default:
+			 			switch(rand(1,3)){
+			 		case 1:
+			 			echo '<img src="../Ad_Images/Shoe1.jpeg" height="250" width="250"/>';
+			 			break;	
+			 		case 2:
+			 			echo '<img src="../Ad_Images/Shoe2.jpeg" height="250" width="250"/>';
+			 			break;
+			 		case 3:
+			 			echo '<img src="../Ad_Images/Shoe3.jpeg" height="250" width="250"/>';
+			 			break;
+			 		}
+			 	}
+			?>
+		</fieldset>
+	</div>
+	
 </body>
 </html>
