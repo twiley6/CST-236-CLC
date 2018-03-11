@@ -55,7 +55,7 @@ $(document).ready(function(){
                	        '<td><label>'+data[numOfProducts].stock+'</label></td>'+
                	        '<td><input type="text" name="price['+numOfProducts+']" readonly value="'+data[numOfProducts].price+'"></input></td>'+
                	        '<td><input name ="qty['+numOfProducts+']" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"></input></td>'+
-               	        '<td><button class="link" style="width: auto;" id="comments"'+data[numOfProducts].prodID+'>View Comments</button></td></tr>');
+               	        '<td><button class="link" style="width: auto;" id="comments'+data[numOfProducts].prodID+'">View Comments</button></td></tr>');
     			}
     		  },error: function (req, status, error) {
                   alert("/nRequest: " + req + " /nStatus: " + status + " /nError: " + error);  
