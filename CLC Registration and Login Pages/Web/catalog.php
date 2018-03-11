@@ -298,10 +298,16 @@ $(document).ready(function(){
 	
 	<table id="Comments">
     <tr>
-        <th>Product Name</th>
-        <th>Rating</th>
         <th>Comment</th>
+        <th>Rating</th>
     </tr>
+    <?php 
+    $cManagement = new commentManagement();
+    $result = $cManagement->getComment();
+    while ($row = mysqli_fetch_array ($result)){
+    	echo "<td><label>".$row["CommentID"]."</label></td>";
+    }
+    ?>
 	</table>
 	
 </body>
